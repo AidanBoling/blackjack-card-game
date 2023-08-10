@@ -1,0 +1,386 @@
+/* Variables */
+
+
+:root {
+
+    /* GLOBAL */
+    /* > Colors */
+
+    --white: rgb(255, 255, 255);
+    --black: rgb(0, 0, 0);
+
+    --grey-light-1: rgb(173, 181, 189);
+    --grey: rgb(108, 117, 125);
+    --grey-dark-1: rgb(73, 80, 87);
+    --grey-dark-2: rgb(52, 58, 64);
+    --grey-darkest: rgb(21, 21, 21);
+
+    --green-light-1: rgb(37, 184, 116);
+    --green: rgb(25, 135, 84);
+    --green-dark-1: rgb(12, 86, 52);
+
+    --plum-light-1: rgb(147, 24, 69);
+    --plum: rgb(109, 15, 49);
+    --plum-dark-1: rgb(67, 7, 29);
+
+    --core-light-1: var(--green-light-1);
+    --core: var(--green);
+    --core-dark-1: var(--green-dark-1);
+
+    --core-comp-light-1: var(--plum-light-1);
+    --core-comp: var(--plum);
+    --core-comp-dark-1: var(--plum-dark-1);
+
+    --neutral-bw: var(--grey);
+    --neutral-dark-1: var(--grey-dark-1);
+    --neutral-dark-2: var(--grey-dark-2);
+
+    --dark: var(--grey-darkest);
+
+
+    /* > Font size */
+
+    --fs-xs: .8rem;
+    --fs-sm: 1rem;
+    --fs-m: 1.5rem;
+    --fs-lg: 2rem;
+    --fs-xl: 3rem;
+
+    /* > Other */
+
+    --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .075);
+    --box-shadow: 0 .5rem 1rem rgba(var(--black), .15);
+    --box-shadow-lg: 0 1rem 3rem rgba(var(--black), .175);
+    --box-shadow-inset: inset 0 1px 2px rgba(var(--black), .075);
+
+    
+
+    /* BODY */
+
+    /* > Main */
+
+    --text-color: var(--white);
+    --font-size: var(--fs-sm);
+    --font-family: Arial, Helvetica, sans-serif;
+
+    --background-color: var(--green);
+
+    --border-radius: .5rem;
+    --border-color: var(--neutral-dark-2);
+    --border-width: 1px;
+
+    --component-margin-y: .7rem;
+    --component-margin-x: 1rem;
+
+    /* --flex-item-margins: 5rem; */
+
+    --hand-bg: var(--core-darker);
+    --hand-height: 200px;
+    --hand-max-height: 30vh;
+    --hand-width: 90%;
+    --hand-margin-y: 0;
+    --hand-margin-x: 10vw;
+    /* sections-min-height: ; */
+
+
+    /* > Components */
+
+    /* >> buttons */
+
+    --btn-background-color: var(--core-comp);
+    --btn-bg-lighter: var(--core-comp-light-1);
+    --btn-bg-darker: var(--core-comp-dark-1);
+
+    --btn-text-color: var(--text-main);
+    --btn-font-size: var(--font-size);
+
+    --btn-padding-y: .75rem;
+    --btn-padding-x: .75rem;
+
+    --btn-border-width: 0;
+    --btn-border-color: var(--border-color);
+    --btn-border-radius: var(--border-radius);
+    --btn-box-shadow: inset 0 1px 0 rgba(var(--white), .15), 0 1px 1px rgba(var(--black), .075);
+
+    --btn-margin-y: var(--component-margin);
+    --btn-margin-x: var(--component-margin);
+
+    --btn-hover-bg: var(--btn-bg-darker);
+    --btn-hover-text-color: var(--btn-text-color);
+    --btn-hover-bd-width: var(--btn-border-width);
+    --btn-hover-bd-color: var(--btn-border-color);
+    --btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+
+    /* >> cards */
+
+    --card-aspect-ratio: 1 / 1.5;
+    --card-height: 28vh;
+
+    --card-bg: rgba(var(--background-color), 0);
+    --card-text-color: var(--text-color);
+    --card-border-color: rgba(var(--border-color), .8);
+    --card-border-width: var(--border-width);
+    --card-border-radius: var(--border-radius);
+    --card-inner-shadow: inset 0 1px 0 rgba(var(--dark), .15);
+    --card-box-shadow: var(--box-shadow);
+
+    --card-margin-y: var(--component-margin);
+    --card-margin-x: var(--component-margin);
+
+    --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark), .15);
+    --card-empty-bg: rgba(var(--dark), .4);
+
+    --card-hover-box-shadow: var(--card-box-shadow);
+    /* --card-hover-box-shadow: inset 0 1px 0 rgba(var(--white), .15), var(--card-box-shadow); */
+
+}
+
+/* 
+$btn-color:                   var(--#{$prefix}body-color) !default;
+$btn-padding-y:               $input-btn-padding-y !default;
+$btn-padding-x:               $input-btn-padding-x !default;
+$btn-font-family:             $input-btn-font-family !default;
+$btn-font-size:               $input-btn-font-size !default;
+$btn-line-height:             $input-btn-line-height !default;
+$btn-white-space:             null !default; // Set to `nowrap` to prevent text wrapping
+
+$btn-padding-y-sm:            $input-btn-padding-y-sm !default;
+$btn-padding-x-sm:            $input-btn-padding-x-sm !default;
+$btn-font-size-sm:            $input-btn-font-size-sm !default;
+
+$btn-padding-y-lg:            $input-btn-padding-y-lg !default;
+$btn-padding-x-lg:            $input-btn-padding-x-lg !default;
+$btn-font-size-lg:            $input-btn-font-size-lg !default;
+
+
+*/
+
+/* GENERAL */
+
+/* > Layout and Sections */
+
+html {
+    height: 100vh;
+}
+
+body {
+    width: 100% !important;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    
+    color: var(--text-color);
+    font-family: var(--font-family);
+    
+    background-color: var(--background-color);
+}
+
+/* 
+
+body > div {
+    width: 100%;
+} */
+
+.flex {
+    display: flex;
+}
+
+.flex > * {
+    margin: var(--component-margin-y) var(--component-margin-x);
+}
+
+
+.flex-col > * {
+    margin: var(--component-margin);
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.flex.f-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-col.f-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.justify-s-right {
+    justify-self: flex-end !important;
+}
+
+.main-container {
+    /* --row-max: calc(calc(100vh - 70px) / 2); */
+    display: grid;
+    /* grid-template-rows: minmax(150px, var(--row-max)) 1fr minmax(150px, var(--row-max)); */
+    grid-template-rows: 3fr auto 3fr;
+    grid-template-columns: 100vw;
+    min-height: 90vh;
+} 
+
+#dealer {margin-bottom: 2.5vh;}
+#player {margin-top: 2.5vh;}
+
+.divider {
+    height: 100%;
+    margin: 0;
+}
+
+/* COMPONENTS */
+
+/* form {
+    margin: 0 !important;
+    padding: 0;
+} */
+
+/* > Card slots */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+
+    box-sizing: border-box;
+    aspect-ratio: var(--card-aspect-ratio) !important;
+
+    height: var(--card-height) !important;
+    min-height: 100px;
+    
+    color: var(--card-text-color);
+    word-wrap: break-word;
+    background-color: var(--card-bg);
+    background-clip: border-box;
+    /* border: var(--card-border-width) solid var(--card-border-color); */
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--card-box-shadow); 
+
+    /* Card-body... */
+    /* // Enable `flex-grow: 1` for decks and groups so that card blocks take up
+    // as much space as possible, ensuring footers are aligned to the bottom. */
+    
+    /* flex: 1 1 auto;
+    padding: var(--#{$prefix}card-spacer-y) var(--#{$prefix}card-spacer-x);
+    color: var(--#{$prefix}card-color);
+    }
+    */
+
+/* Card image overlay */
+
+/* .card-img-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: var(--#{$prefix}card-img-overlay-padding);
+    @include border-radius(var(--#{$prefix}card-inner-border-radius));
+  }
+  
+  
+  .card-img,
+  .card-img-top,
+  .card-img-bottom {
+    width: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
+  }
+  
+  .card-img,
+  .card-img-top {
+    @include border-top-radius(var(--#{$prefix}card-inner-border-radius));
+  }
+  
+  .card-img,
+  .card-img-bottom {
+    @include border-bottom-radius(var(--#{$prefix}card-inner-border-radius));
+  }
+   */
+
+}
+
+.card.empty { /*  */
+    background: var(--card-empty-bg);
+    box-shadow: var(--card-empty-box-shadow);
+}
+
+
+/* > Buttons */
+
+.btn {
+    display: inline-block;
+    padding: var(--btn-padding-y) var(--btn-padding-x);
+
+    background-color: var(--btn-background-color);
+
+    color: var(--btn-text-color);
+    font-size: (var(--btn-font-size));
+    text-align: center;
+    /* white-space: nowrap; */ /* Turn on to prevent text-wrapping */
+    vertical-align: middle;
+    cursor: pointer; /* Turn off to disable pointer on hover */
+    
+    border: var(--btn-border-width) solid var(--btn-border-color);
+    border-radius: var(--btn-border-radius);
+    box-shadow: var(--btn-box-shadow);
+    /* @include gradient-bg(var(--#{$prefix}btn-bg)); */
+    transition: var(--btn-transition); 
+}
+
+.btn.hover {
+    color: var(--btn-hover-text-color);
+    background-color: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bd-color);
+    border-width: var(--btn-hover-bd-width);
+}
+
+
+
+/* SECTIONS */
+
+/* > Controls/info bar */
+
+#control-bar, .top-bar {
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+
+    min-height: 70px;
+    align-items: center;
+}
+
+#control-bar > .flex {
+    margin: 0 !important;
+    padding: 0;
+}
+
+.info-box {
+    margin: var(--component-margin-y) var(--component-margin-x) !important;
+    cursor: pointer;
+
+}
+
+#control-bar > form {
+    align-items: center;
+    justify-content: end;
+}
+
+/* > Body sections (dealer + player hands, etc) */
+
+div.hand {
+    background-color: var(--dark-green);
+    /* min-height: 30%; */
+    min-height: var(--hand-height);
+    max-height: var(--hand-max-height);
+    margin: var(--hand-margin-y) var(--hand-margin-x);
+    
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    justify-content: center;
+    align-items: center;
+}
