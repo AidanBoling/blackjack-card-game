@@ -151,7 +151,7 @@
     --btn-hover-text-color: var(--btn-text-color);
     --btn-hover-bd-width: var(--btn-border-width);
     --btn-hover-bd-color: var(--btn-border-color);
-    --btn-transition: color .15s ease-in-out, background-color .5s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    --btn-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
 
     /* >> cards */
@@ -159,12 +159,12 @@
     --card-aspect-ratio: 1 / 1.5;
     --card-height: 28vh;
 
-    --card-bg: rgba(var(--background-color-p), 0.6);
+    --card-bg: rgba(var(--background-color-p), 0.4);
     --card-text-color: var(--text-color);
     --card-border-color: rgba(var(--border-color-p), 0.8);
     --card-border-width: var(--border-width);
     --card-border-radius: var(--border-radius);
-    --card-inner-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
+    --card-inner-shadow: inset 0 1px 3px 2px rgba(var(--dark-p), .15);
     --card-box-shadow: var(--box-shadow-sm);
 
     --card-margin-y: .5rem;
@@ -173,7 +173,8 @@
     --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
     --card-empty-bg: rgba(var(--dark-p), .4);
 
-    --card-hover-box-shadow: var(--card-box-shadow);
+    /* --card-hover-box-shadow: var(--box-shadow); */
+    /* --card-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
     /* --card-hover-box-shadow: inset 0 1px 0 rgba(var(--white), .15), var(--card-box-shadow); */
 
 }
@@ -375,14 +376,12 @@ body > div {
     transition: var(--btn-transition); 
 }
 
-.btn:hover {
+.btn:hover, .btn:active {
     color: var(--btn-hover-text-color);
     background-color: var(--btn-hover-bg);
     border-color: var(--btn-hover-bd-color);
     border-width: var(--btn-hover-bd-width);
 }
-
-
 
 /* SECTIONS */
 
