@@ -6,36 +6,66 @@
     /* GLOBAL */
     /* > Colors */
 
-    --white: rgb(255, 255, 255);
-    --black: rgb(0, 0, 0);
+    /* Custom colors have 2 variables: in regular rgb() form (easier to see and 
+    adjust color if needed); and as just the rgb numbers (-p suffix, 
+    for "partial"), which can be used in rgba() param to adjust opacity */
+    
+    /* Changing colors: Change/add named colors, then update core, comp, neutral, 
+    dark variables. The main components are (with a few exceptions) linked to the latter. */
+
+    --white: 255, 255, 255;
+    --black: 0, 0, 0;
 
     --grey-light-1: rgb(173, 181, 189);
+    --grey-light-1-p: 173, 181, 189;
     --grey: rgb(108, 117, 125);
+    --grey-p: 108, 117, 125;
     --grey-dark-1: rgb(73, 80, 87);
+    --grey-dark-1-p: 73, 80, 87;
     --grey-dark-2: rgb(52, 58, 64);
+    --grey-dark-2-p: 52, 58, 64;
     --grey-darkest: rgb(21, 21, 21);
+    --grey-darkest-p: 21, 21, 21;
 
-    --green-light-1: rgb(37, 184, 116);
-    --green: rgb(25, 135, 84);
-    --green-dark-1: rgb(12, 86, 52);
+    --green-light-1: rgb(38, 175, 86);
+    --green-light-1-p: 38, 175, 86;
+    --green: rgb(25, 135, 63);
+    --green-p: 25, 135, 63;
+    --green-dark-1: rgb(17, 100, 46);
+    --green-dark-1-p: 17, 100, 46;
 
-    --plum-light-1: rgb(147, 24, 69);
+    --plum-light-2: rgb(147, 24, 69);
+    --plum-light-2-p: 147, 24, 69;
+    --plum-light-1: rgb(129, 20, 60);
+    --plum-light-1-p: 129, 20, 60;
     --plum: rgb(109, 15, 49);
+    --plum-p: 109, 15, 49;
     --plum-dark-1: rgb(67, 7, 29);
+    --plum-dark-1-p: 67, 7, 29;
 
     --core-light-1: var(--green-light-1);
+    --core-light-1-p: var(--green-light-1-p);
     --core: var(--green);
+    --core-p: var(--green-p);
     --core-dark-1: var(--green-dark-1);
+    --core-dark-1-p: var(--green-dark-1-p);
 
-    --core-comp-light-1: var(--plum-light-1);
-    --core-comp: var(--plum);
-    --core-comp-dark-1: var(--plum-dark-1);
+    --core-comp-light-1: var(--plum-light-2);
+    --core-comp-light-1-p: var(--plum-light-2-p);
+    --core-comp: var(--plum-light-1);
+    --core-comp-p: var(--plum-light-1-p);
+    --core-comp-dark-1: var(--plum);
+    --core-comp-dark-1-p: var(--plum-p);
 
     --neutral-bw: var(--grey);
+    --neutral-bw-p: var(--grey-p);
     --neutral-dark-1: var(--grey-dark-1);
+    --neutral-dark-1-p: var(--grey-dark-1-p);
     --neutral-dark-2: var(--grey-dark-2);
+    --neutral-dark-2-p: var(--grey-dark-2-p);
 
     --dark: var(--grey-darkest);
+    --dark-p: var(--grey-darkest-p);
 
 
     /* > Font size */
@@ -46,12 +76,17 @@
     --fs-lg: 2rem;
     --fs-xl: 3rem;
 
+
     /* > Other */
 
-    --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .075);
-    --box-shadow: 0 .5rem 1rem rgba(var(--black), .15);
-    --box-shadow-lg: 0 1rem 3rem rgba(var(--black), .175);
-    --box-shadow-inset: inset 0 1px 2px rgba(var(--black), .075);
+    /* --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .075); */
+    --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .20);
+    /* --box-shadow: 0 .5rem 1rem rgba(var(--black), .15); */
+    --box-shadow: 0 .5rem .9rem rgba(0, 0, 0, 0.25);
+    /* --box-shadow-lg: 0 1rem 2rem rgba(var(--black), .175); */
+    --box-shadow-lg: 0 1rem 1.5rem rgba(var(--black), .3);
+    /* --box-shadow-inset: inset 0 1px 2px rgba(var(--black), .075); */
+    --box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.299);
 
     
 
@@ -59,14 +94,16 @@
 
     /* > Main */
 
-    --text-color: var(--white);
+    --text-color: rgb(var(--white));
     --font-size: var(--fs-sm);
     --font-family: Arial, Helvetica, sans-serif;
 
-    --background-color: var(--green);
+    --background-color: var(--core);
+    --background-color-p: var(--core-p); /* Using the partial b/c of other dependent variables; be sure to wrap in rgb() or rgba() whenever used */
 
     --border-radius: .5rem;
     --border-color: var(--neutral-dark-2);
+    --border-color-p: var(--neutral-dark-2-p);
     --border-width: 1px;
 
     --component-margin-y: .7rem;
@@ -74,12 +111,14 @@
 
     /* --flex-item-margins: 5rem; */
 
-    --hand-bg: var(--core-darker);
+    /* >> Hand sections (dealer/player) */
+    --hand-bg: rgba(var(--core-dark-1-p),0.8);
     --hand-height: 200px;
     --hand-max-height: 30vh;
     --hand-width: 90%;
     --hand-margin-y: 0;
     --hand-margin-x: 10vw;
+    --hand-padding-y: var(--card-margin-y);
     /* sections-min-height: ; */
 
 
@@ -89,7 +128,10 @@
 
     --btn-background-color: var(--core-comp);
     --btn-bg-lighter: var(--core-comp-light-1);
+    --btn-bg-lighter-p: var(--core-comp-light-1-p);
     --btn-bg-darker: var(--core-comp-dark-1);
+    --btn-bg-darker-p: var(--core-comp-dark-1-p);
+    --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75));
 
     --btn-text-color: var(--text-main);
     --btn-font-size: var(--font-size);
@@ -100,16 +142,16 @@
     --btn-border-width: 0;
     --btn-border-color: var(--border-color);
     --btn-border-radius: var(--border-radius);
-    --btn-box-shadow: inset 0 1px 0 rgba(var(--white), .15), 0 1px 1px rgba(var(--black), .075);
+    --btn-box-shadow: inset 0 .5px 0 .5px rgba(var(--white), .15), inset 0px -.5px 0 .5px rgba(var(--white), .15), 0 1px 2px 0px rgba(var(--black), .175);
 
     --btn-margin-y: var(--component-margin);
     --btn-margin-x: var(--component-margin);
 
-    --btn-hover-bg: var(--btn-bg-darker);
+    --btn-hover-bg: rgba(var(--btn-bg-lighter-p));
     --btn-hover-text-color: var(--btn-text-color);
     --btn-hover-bd-width: var(--btn-border-width);
     --btn-hover-bd-color: var(--btn-border-color);
-    --btn-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    --btn-transition: color .15s ease-in-out, background-color .5s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
 
     /* >> cards */
@@ -117,19 +159,19 @@
     --card-aspect-ratio: 1 / 1.5;
     --card-height: 28vh;
 
-    --card-bg: rgba(var(--background-color), 0);
+    --card-bg: rgba(var(--background-color-p), 0.6);
     --card-text-color: var(--text-color);
-    --card-border-color: rgba(var(--border-color), .8);
+    --card-border-color: rgba(var(--border-color-p), 0.8);
     --card-border-width: var(--border-width);
     --card-border-radius: var(--border-radius);
-    --card-inner-shadow: inset 0 1px 0 rgba(var(--dark), .15);
-    --card-box-shadow: var(--box-shadow);
+    --card-inner-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
+    --card-box-shadow: var(--box-shadow-sm);
 
-    --card-margin-y: var(--component-margin);
-    --card-margin-x: var(--component-margin);
+    --card-margin-y: .5rem;
+    --card-margin-x: var(--component-margin-x);
 
-    --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark), .15);
-    --card-empty-bg: rgba(var(--dark), .4);
+    --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
+    --card-empty-bg: rgba(var(--dark-p), .4);
 
     --card-hover-box-shadow: var(--card-box-shadow);
     /* --card-hover-box-shadow: inset 0 1px 0 rgba(var(--white), .15), var(--card-box-shadow); */
@@ -246,20 +288,21 @@ body > div {
     flex-direction: column;
     justify-self: center;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
     aspect-ratio: var(--card-aspect-ratio) !important;
 
     height: var(--card-height) !important;
     min-height: 100px;
+    margin: var(--card-margin-y) var(--card-margin-x);
     
     color: var(--card-text-color);
     word-wrap: break-word;
-    background-color: var(--card-bg);
+    background-color: var(--card-bg) !important;
     background-clip: border-box;
     /* border: var(--card-border-width) solid var(--card-border-color); */
-    border: var(--border-width) solid var(--border-color);
+    border: var(--card-border-width) solid var(--card-border-color) !important;
     border-radius: var(--card-border-radius);
-    box-shadow: var(--card-box-shadow); 
+    box-shadow: var(--card-box-shadow) !important; 
 
     /* Card-body... */
     /* // Enable `flex-grow: 1` for decks and groups so that card blocks take up
@@ -316,7 +359,7 @@ body > div {
     padding: var(--btn-padding-y) var(--btn-padding-x);
 
     background-color: var(--btn-background-color);
-
+    background-image: var(--btn-bg-gradient);
     color: var(--btn-text-color);
     font-size: (var(--btn-font-size));
     text-align: center;
@@ -324,14 +367,15 @@ body > div {
     vertical-align: middle;
     cursor: pointer; /* Turn off to disable pointer on hover */
     
-    border: var(--btn-border-width) solid var(--btn-border-color);
-    border-radius: var(--btn-border-radius);
-    box-shadow: var(--btn-box-shadow);
+    border: var(--btn-border-width) solid var(--btn-border-color) !important;
+    border-radius: var(--btn-border-radius) !important;
+    box-shadow: var(--btn-box-shadow) !important;
     /* @include gradient-bg(var(--#{$prefix}btn-bg)); */
+
     transition: var(--btn-transition); 
 }
 
-.btn.hover {
+.btn:hover {
     color: var(--btn-hover-text-color);
     background-color: var(--btn-hover-bg);
     border-color: var(--btn-hover-bd-color);
@@ -372,11 +416,14 @@ body > div {
 /* > Body sections (dealer + player hands, etc) */
 
 div.hand {
-    background-color: var(--dark-green);
+    /* box-shadow: var(--box-shadow-sm); */
+
+    background-color: var(--hand-bg);
     /* min-height: 30%; */
     min-height: var(--hand-height);
     max-height: var(--hand-max-height);
     margin: var(--hand-margin-y) var(--hand-margin-x);
+    padding: var(--hand-padding-y) 0;
     
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
