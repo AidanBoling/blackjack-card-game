@@ -237,6 +237,92 @@ If round = 1, do dealfunction twice, else do once. Deal function will be wait, p
     revealCards(300);
     
 
+function handleXsViews(view) {
+    if (view.matches) {
+        console.log(`MediaQuery XSmall matched!`);
+        setCardStackSpacing(24, 30);
+    }
+}
+
+function handleSmViews(view) {
+    if (view.matches) {
+        console.log(`MediaQuery for Small matched!`);
+        setCardStackSpacing(32, 40);
+    }
+}
+
+function handleMedViews(view) {
+    if (view.matches) {
+        console.log(`MediaQuery for Med matched!`);
+        setCardStackSpacing(40, 50); 
+    }
+}
+
+function handleLgViews(view) {
+    if (view.matches) {
+        console.log(`MediaQuery for Large matched!`);
+        setCardStackSpacing(45, 60); 
+    }
+}
+
+function handleXlViews(view) {
+    if (view.matches) {
+        console.log(`MediaQuery for XLarge matched!`);
+        setCardStackSpacing(50, 70); 
+    }
+}
+
+function setCardStackSpacing(padding, translate) {
+    const cardBlocks = document.querySelectorAll('.hand');
+    
+    cardBlocks.forEach((cardBlock) => {
+        cardBlock.style.paddingRight = `${Math.max(cardBlock.children.length, 1)*padding}px`;
+        Array.from(cardBlock.children).forEach(
+            (card, i) => (card.style.transform = `translateX(${i*translate}%)`)
+        );
+    });
+}
+
+const xsViewMax = window.matchMedia('(max-width: 370px)')
+const smViewMin = window.matchMedia('(min-width: 371px)')
+
+const smViewMax = window.matchMedia('(max-width: 576px)')
+const medViewMin = window.matchMedia('(min-width: 577px)')
+
+const medViewMax = window.matchMedia('(max-width: 768px)')
+const lgViewMin = window.matchMedia('(min-width: 769px)')
+
+const lgViewMax = window.matchMedia('(max-width: 992px)')
+const xlViewMin = window.matchMedia('(min-width: 993px)')
+
+xsViewMax.addListener(handleXsViews);  // Attach listener function on state changes
+handleXsViews(xsViewMax);  // Call listener function at run time
+
+smViewMin.addListener(handleSmViews);
+handleSmViews(smViewMin);
+
+
+smViewMax.addListener(handleSmViews);
+// handleSmViews(smViewMax); 
+
+medViewMin.addListener(handleMedViews);
+handleMedViews(medViewMin); 
+
+
+medViewMax.addListener(handleMedViews);
+// handleMedViews(medViewMax); 
+
+lgViewMin.addListener(handleLgViews); 
+handleLgViews(lgViewMin);
+
+
+lgViewMax.addListener(handleLgViews);
+// handleLgViews(lgViewMax); 
+
+xlViewMin.addListener(handleXlViews); 
+handleXlViews(xlViewMin);
+
 </script>
+
 
 <%- include('partials/footer.ejs') %>

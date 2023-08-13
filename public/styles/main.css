@@ -182,7 +182,7 @@
     --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
     --card-empty-bg: rgba(var(--dark-p), .4);
 
-    /* --card-hover-box-shadow: var(--box-shadow); */
+    --card-hover-box-shadow: var(--box-shadow);
     /* --card-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
     /* --card-hover-box-shadow: inset 0 1px 0 rgba(var(--white), .15), var(--card-box-shadow); */
 
@@ -293,12 +293,13 @@ body > div {
 /* > Card slots */
 
 .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
+    /* position: relative; */
 
-    box-sizing: border-box !important;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-self: center; */
+
+    /* box-sizing: border-box !important; */
     aspect-ratio: var(--card-aspect-ratio) !important;
 
     height: var(--card-height) !important;
@@ -354,6 +355,15 @@ body > div {
   }
    */
 
+
+    &.empty {
+        background: var(--card-empty-bg);
+        box-shadow: var(--card-empty-box-shadow);
+    }
+
+    &.stack {
+        position: absolute;   
+    }
 }
 
 .card.empty { /*  */
@@ -364,6 +374,9 @@ body > div {
 .card.new {
     display: none;
 }
+
+
+
 
 /* > Buttons */
 
@@ -494,9 +507,9 @@ div.modal.header > h2 {
 
 div.hand {
     /* box-shadow: var(--box-shadow-sm); */
-
+    /* box-sizing: border-box; */
     background-color: var(--hand-bg);
-    /* min-height: 30%; */
+
     min-height: var(--hand-height);
     max-height: var(--hand-max-height);
     margin: var(--hand-margin-y) var(--hand-margin-x);
