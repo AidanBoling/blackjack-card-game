@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles/main.css">
+
 
 </head>
 <body>
 
     <div id="control-bar" class="top-bar container flex">
         <div class="flex">
-            <div class="info-box">- ℹ︎ -</div>
+            <div class="info-box"><i class="bi bi-info-circle"></i>
+            </div>
             <div class="info-box">Stats</div>
         </div>
         
-        <form method="POST" class="flex justify-s-end">           
-            <button id="new-game" class="btn" type="submit" formaction="/new" aria-label="New Game">New Game</button>
+        <form action="/new" method="POST" class="flex justify-s-end">           
+            <button id="new-game" class="btn" name="start" type="submit" value="new" aria-label="New Game">New Game</button>
         </form>
             
         </div>

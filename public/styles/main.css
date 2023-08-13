@@ -16,6 +16,8 @@
     --white: 255, 255, 255;
     --black: 0, 0, 0;
 
+    --grey-light-2: rgb(210, 217, 223);
+    --grey-light-2-p: 210, 217, 223;
     --grey-light-1: rgb(173, 181, 189);
     --grey-light-1-p: 173, 181, 189;
     --grey: rgb(108, 117, 125);
@@ -110,6 +112,8 @@
     --component-margin-x: 1rem;
 
     /* --flex-item-margins: 5rem; */
+    --header-footer-height: 7vh;
+
 
     /* >> Hand sections (dealer/player) */
     --hand-bg: rgba(var(--core-dark-1-p),0.8);
@@ -120,6 +124,7 @@
     --hand-margin-x: 10vw;
     --hand-padding-y: var(--card-margin-y);
     /* sections-min-height: ; */
+
 
 
     /* > Components */
@@ -133,19 +138,20 @@
     --btn-bg-darker-p: var(--core-comp-dark-1-p);
     --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75));
 
+    --btn-padding-y: .75rem;
+    --btn-padding-x: .75rem;
+    --btn-margin-y: var(--component-margin);
+    --btn-margin-x: var(--component-margin);
+
     --btn-text-color: var(--text-main);
     --btn-font-size: var(--font-size);
 
-    --btn-padding-y: .75rem;
-    --btn-padding-x: .75rem;
-
+    --btn-min-width: 120px;
+    --btn-min-height: 40px;
     --btn-border-width: 0;
     --btn-border-color: var(--border-color);
     --btn-border-radius: var(--border-radius);
     --btn-box-shadow: inset 0 .5px 0 .5px rgba(var(--white), .15), inset 0px -.5px 0 .5px rgba(var(--white), .15), 0 1px 2px 0px rgba(var(--black), .175);
-
-    --btn-margin-y: var(--component-margin);
-    --btn-margin-x: var(--component-margin);
 
     --btn-hover-bg: rgba(var(--btn-bg-lighter-p));
     --btn-hover-text-color: var(--btn-text-color);
@@ -153,10 +159,13 @@
     --btn-hover-bd-color: var(--btn-border-color);
     --btn-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
+    /* --btn-close-bg: ;
+    --btn-close-bg-gradient: ;
+    --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75)); */
 
     /* >> cards */
 
-    --card-aspect-ratio: 1 / 1.5;
+    --card-aspect-ratio: 113 / 157;
     --card-height: 28vh;
 
     --card-bg: rgba(var(--background-color-p), 0.4);
@@ -258,22 +267,20 @@ body > div {
     justify-self: flex-end !important;
 }
 
+
+
 .main-container {
     /* --row-max: calc(calc(100vh - 70px) / 2); */
     display: grid;
     /* grid-template-rows: minmax(150px, var(--row-max)) 1fr minmax(150px, var(--row-max)); */
     grid-template-rows: 3fr auto 3fr;
     grid-template-columns: 100vw;
-    min-height: 90vh;
+    min-height: 86vh;
 } 
 
-#dealer {margin-bottom: 2.5vh;}
-#player {margin-top: 2.5vh;}
 
-.divider {
-    height: 100%;
-    margin: 0;
-}
+
+
 
 /* COMPONENTS */
 
@@ -282,7 +289,9 @@ body > div {
     padding: 0;
 } */
 
+
 /* > Card slots */
+
 .card {
     position: relative;
     display: flex;
@@ -352,12 +361,17 @@ body > div {
     box-shadow: var(--card-empty-box-shadow);
 }
 
+.card.new {
+    display: none;
+}
 
 /* > Buttons */
 
 .btn {
     display: inline-block;
     padding: var(--btn-padding-y) var(--btn-padding-x);
+    min-width: var(--btn-min-width);
+    min-height: var(--btn-min-height);
 
     background-color: var(--btn-background-color);
     background-image: var(--btn-bg-gradient);
@@ -383,17 +397,55 @@ body > div {
     border-width: var(--btn-hover-bd-width);
 }
 
+.dismiss-btn {
+    width: 10px;
+    height: 10px;
+}
+
+.modal {
+
+    display: none;
+    contain: strict;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: -1;
+
+    background: rgba(var(--dark-p), .6);
+    width: 80vw;
+    height: 60vw;
+    overflow-y: scroll;
+
+    padding: 20px;
+    border-radius: var(--border-radius);
+
+    &.show {
+        display: flex !important;
+        flex-direction: column;
+        z-index: 4;
+    }
+
+}
+
+div.modal.header > h2 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: var(--fs-m);
+}
+
+
 /* SECTIONS */
 
-/* > Controls/info bar */
+/*  > Top - controls/info bar */
 
 #control-bar, .top-bar {
     justify-content: space-between;
     position: sticky;
     top: 0;
 
-    min-height: 70px;
+    min-height: var(--header-footer-height);
     align-items: center;
+    z-index: 10;
 }
 
 #control-bar > .flex {
@@ -404,7 +456,6 @@ body > div {
 .info-box {
     margin: var(--component-margin-y) var(--component-margin-x) !important;
     cursor: pointer;
-
 }
 
 #control-bar > form {
@@ -412,7 +463,34 @@ body > div {
     justify-content: end;
 }
 
-/* > Body sections (dealer + player hands, etc) */
+
+
+
+
+/*  > Body sections (dealer + player hands, etc) */
+
+
+#dealer {margin-bottom: 2.5vh; order: 0; }
+
+#player {
+    margin-top: 2.5vh;
+    grid-row-start: 3;
+    order: 2;
+}
+
+/* .divider {
+    height: 100%;
+    margin: 0;
+} */
+
+#dealer h2 { order: 5; }
+
+.row h2 {
+    color: var(--grey-light-2);
+    font-style: italic;
+    text-align: center;
+    margin: .5rem 0 !important;
+}
 
 div.hand {
     /* box-shadow: var(--box-shadow-sm); */
@@ -430,3 +508,45 @@ div.hand {
     justify-content: center;
     align-items: center;
 }
+
+
+
+/*  > Bottom/footer Sections*/
+
+#player-options, .footer.sticky {
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+
+    min-height: var(--header-footer-height);
+    width: 100vw;
+    overflow: hidden;
+
+    align-items: center;
+    z-index: 10;
+}
+
+.footer > form { 
+    margin: 0; 
+    margin-bottom: .5vh;
+}
+
+#player-options > form {
+    justify-content: space-around;
+    width: 100%;
+}
+
+#player-options .btn {
+    width: calc(var(--btn-min-width) + 10vw);
+
+}
+
+
+
+@media (max-width: 576px) {
+    :root {
+        --hand-width: 95%;
+        --hand-margin-x: 5vw;
+    }
+}
+
