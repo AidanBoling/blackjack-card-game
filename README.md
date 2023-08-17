@@ -1,5 +1,6 @@
 # blackjack-card-game
-A simple Javascript/EJS blackjack card game app. Built using Node.js.
+A simple browser-based blackjack card game app.  
+Uses the [deckofcards](https://github.com/crobertsbmw/deckofcards/tree/master) API.
 
 ## Server Setup
 ### Prerequisites
