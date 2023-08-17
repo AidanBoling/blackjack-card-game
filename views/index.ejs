@@ -2,327 +2,78 @@
 
 <div class="main-container flex-col">
     <% if (locals.participants !== '') { %>
-    <%# if (participants!=='') { %>
         
         <% participants.forEach(p => { %>
             <div id="<%= p.who %>" class="row container flex-col">
-            <h2 class="section label"><%= p.who.charAt(0).toUpperCase() + p.who.slice(1) %></h2>
-            
-            <div class="hand flex">
-            
-            <% if (p.cards.length === 0) { %>
+                <h2 class="section label"><%= p.who.charAt(0).toUpperCase() + p.who.slice(1) %></h2>
+                
+                <div class="hand flex">
+                    <div class="hand-group flex">
+                    <% if (p.cards.length === 0) { %>
 
-                <!-- If no cards yet, show empty card spaces -->
-                    <div class="card stack empty"></div>
-                    <div class="card stack empty"></div>
-            
-            <% } else { %>
-                <%# console.log(p.cards) %>
-
-                <!-- Renders the cards already dealt before immediately
-                but keeps "undealt" cards hidden (via "tag = 'new'") -->
-                <% p.cards.forEach(card => { %>
-                    <% let img = card.image; %>
-                    <% let altText = `${card.value} of ${card.suit}`; %>
-                    <% let tag = ''; %>
-
-                    <%# console.log(card.show)%>
-                    <% if (!card.dealt) { tag = ' new'; } %>
+                        <!-- If no cards yet, show empty card spaces -->
+                            <div class="card stack empty"></div>
+                            <div class="card stack empty"></div>
                     
-                    <div class="card stack<%= tag %>">
-                    
-                        <% if (card.show === 'down') { img = cardBack; altText = 'face down'} %>
+                    <% } else { %>
 
-                        <img src="<%= img %>" style="object-fit: contain" alt="Playing card, <%= altText %>"></img>
-                        
+                        <!-- Renders the cards already dealt before immediately
+                        but keeps "undealt" cards hidden (via "tag = 'new'") -->
+                        <% p.cards.forEach(card => { %>
+                            <% let img = card.image; %>
+                            <% let altText = `${card.value} of ${card.suit}`; %>
+                            <% let tag = ''; %>
+
+                            <% if (!card.dealt) { tag = ' new'; } %>
+                            <% if (card.show === 'down') { %>
+                                <% if (showAllCards === true) { %>
+                                    <script> 
+                                        const dcImage = "<%- img %>";
+                                        const dcAltText = "<%- altText %>";
+                                    </script>
+                                <% } %>
+                                <% img = cardBack; altText = 'face down'; id = 'd1' %>
+                            <% } %>
+                            
+                            <div class="card stack<%= tag %>">
+                                <img id="<%= id %>" src="<%= img %>" style="object-fit: contain" alt="Playing card, <%= altText %>"></img> 
+                            </div>
+
+                        <% }); %>
+                    <% } %>
                     </div>
-
-                <% }); %>
-            <% } %>
-            </div>
+                </div>
             </div>
         <% }); %>
 
     <% } else { %>
         <div id="dealer" class="row container flex-col">
             <h2 class="section label">Dealer</h2>
-            <div class="hand flex">
-                <div id="p1" class="card stack empty"></div>
-                <div id="p2" class="card stack empty"></div>
+                <div class="hand flex">
+                    <div class="hand-group flex">
+                    <div id="d1" class="card stack empty"></div>
+                    <div id="d2" class="card stack empty"></div>
+                </div>
             </div>
         </div>
         <div id="player" class="row container flex-col">
             <h2 class="section label">Player</h2>
             <div class="hand flex">
-                <div id="p1" class="card stack empty"></div>
-                <div id="p2" class="card stack empty"></div>
+                <div class="hand-group flex">
+                    <div id="p1" class="card stack empty"></div>
+                    <div id="p2" class="card stack empty"></div>
+                </div>
             </div>
         </div>
     <% } %>
-
-    <!-- <div class="divider row container flex"></div>  -->
-
-    <div id="modal-message" class="modal message hidden">
-        <% if (locals.message) { %>
-            <%# if (message.name === 'roundOver') { %>
-            <div class="modal header message">
-                <h2 class="message"><%= message.title %></h2>
-                <button type="button" class="dismiss-btn" onclick="dismissModal('#modal-message')" aria-label="close">
-                    <i class="bi bi-x"></i>
-                </button>
-            </div>
-            
-            <div class="modal body message">
-                <% message.text.forEach(line => { %>
-
-                    <span class="message line"><%= line %></span><br />
-
-                <% }); %>
-            </div>
-            <div class="modal footer message flex f-center">
-                <form action=<%= message.formRoute %> method="POST">
-                    <% message.actions.forEach(action => { %>
-
-                        <button type="submit" class="btn" value="<%= action.value %>" aria-label="<%= action.label %>" >
-                            <%= action.text %>
-                        </button>
-                    
-                    <% }); %>
-                </form>
-                <button type="button" class="btn" onclick="dismissModal('#modal-message')"><%= message.closeText %>
-            </div>
-        <% } %>
-    </div>
 </div>
-
 
 <div id="player-options" class="sticky footer container flex">
-
     <form action="/player-move" method="POST" class="flex">           
-        <button id="hit" class="btn" name="move" type="submit" value="hit" aria-label="Hit">Hit</button>
+        <button id="hit" class="btn move" name="move" type="submit" value="hit" aria-label="Hit">Hit</button>
     
-        <button id="stay" class="btn" name="move" type="submit" value="stay" aria-label="Stay">Stay</button>
+        <button id="stay" class="btn move" name="move" type="submit" value="stay" aria-label="Stay">Stay</button>
     </form>
-        
-    </div>
 </div>
-
-
-<!-- [x]TODO: run function to reveal the undealt cards (by removing class: new), in order, with delay between... delayDeal(500)
-If round = 1, do dealfunction twice, else do once. Deal function will be wait, player card reveal, wait, dealer card reveal -->
-
-<script>
-    
-    function showModal(elementID) {
-        const modal = document.querySelector(elementID);
-        modal.classList.add('show');
-    }
-
-    function dismissModal(elementID) {
-        const modal = document.querySelector(elementID);
-        modal.classList.remove('show');
-    }
-
-    function handleXsViews(view) {
-        if (view.matches) {
-            // console.log(`MediaQuery XSmall matched!`);
-            setCardStackSpacing(24, 30);
-        }
-    }
-
-    function handleSmViews(view) {
-        if (view.matches) {
-            // console.log(`MediaQuery for Small matched!`);
-            setCardStackSpacing(32, 40);
-        }
-    }
-
-    function handleMedViews(view) {
-        if (view.matches) {
-            // console.log(`MediaQuery for Med matched!`);
-            setCardStackSpacing(40, 50); 
-        }
-    }
-
-    function handleLgViews(view) {
-        if (view.matches) {
-            // console.log(`MediaQuery for Large matched!`);
-            setCardStackSpacing(45, 60); 
-        }
-    }
-
-    function handleXlViews(view) {
-        if (view.matches) {
-            // console.log(`MediaQuery for XLarge matched!`);
-            setCardStackSpacing(50, 70); 
-        }
-    }
-
-    function setCardStackSpacing(padding, translate) {
-        const cardBlocks = document.querySelectorAll('.hand');
-        
-        cardBlocks.forEach((cardBlock) => {
-            cardBlock.style.paddingRight = `${Math.max(cardBlock.children.length, 1)*padding}px`;
-            Array.from(cardBlock.children).forEach(
-                (card, i) => (card.style.transform = `translateX(${i*translate}%)`)
-            );
-        });
-    }
-
-    function breakpointSetUp() {
-        const xsViewMax = window.matchMedia('(max-width: 370px)')
-        const smViewMin = window.matchMedia('(min-width: 371px)')
-
-        const smViewMax = window.matchMedia('(max-width: 576px)')
-        const medViewMin = window.matchMedia('(min-width: 577px)')
-
-        const medViewMax = window.matchMedia('(max-width: 768px)')
-        const lgViewMin = window.matchMedia('(min-width: 769px)')
-
-        const lgViewMax = window.matchMedia('(max-width: 992px)')
-        const xlViewMin = window.matchMedia('(min-width: 993px)')
-
-        xsViewMax.addListener(handleXsViews);  // Attach listener function on state changes
-        handleXsViews(xsViewMax);  // Call listener function at run time
-
-        smViewMin.addListener(handleSmViews);
-        handleSmViews(smViewMin);
-
-        smViewMax.addListener(handleSmViews);
-        // handleSmViews(smViewMax); 
-
-        medViewMin.addListener(handleMedViews);
-        handleMedViews(medViewMin); 
-
-        medViewMax.addListener(handleMedViews);
-        // handleMedViews(medViewMax); 
-
-        lgViewMin.addListener(handleLgViews); 
-        handleLgViews(lgViewMin);
-
-        lgViewMax.addListener(handleLgViews);
-        // handleLgViews(lgViewMax); 
-
-        xlViewMin.addListener(handleXlViews); 
-        handleXlViews(xlViewMin);
-    }
-
-    // async function delayDeal(ms) {
-    //     await new Promise(resolve => setTimeout(resolve, ms));
-    // }
-
-    function revealCards(delayEach) { 
-        const newCards = document.querySelectorAll('.card.new');
-        let delay = 0;
-        if (newCards) {
-            if (newCards.length === 4) {
-                [2,0,3,1].forEach(i => { 
-                    setTimeout(function(){ newCards[i].classList.remove('new') }, delay += delayEach);
-                });
-            } else if (newCards.length === 2) {
-                [1,0].forEach(i => { 
-                    setTimeout(function(){ newCards[i].classList.remove('new') }, delay += delayEach);
-                });
-            } else if (newCards.length === 1) {
-                setTimeout(function(){ newCards[0].classList.remove('new') }, delay += delayEach);
-            }
-        }
-
-        setTimeout(function(){ 
-            if (locals.message) { showModal('#modal-message') }
-        }, delay += delayEach);
-    }
-
-    breakpointSetUp();
-    revealCards(300);
-    
-
-function handleXsViews(view) {
-    if (view.matches) {
-        console.log(`MediaQuery XSmall matched!`);
-        setCardStackSpacing(24, 30);
-    }
-}
-
-function handleSmViews(view) {
-    if (view.matches) {
-        console.log(`MediaQuery for Small matched!`);
-        setCardStackSpacing(32, 40);
-    }
-}
-
-function handleMedViews(view) {
-    if (view.matches) {
-        console.log(`MediaQuery for Med matched!`);
-        setCardStackSpacing(40, 50); 
-    }
-}
-
-function handleLgViews(view) {
-    if (view.matches) {
-        console.log(`MediaQuery for Large matched!`);
-        setCardStackSpacing(45, 60); 
-    }
-}
-
-function handleXlViews(view) {
-    if (view.matches) {
-        console.log(`MediaQuery for XLarge matched!`);
-        setCardStackSpacing(50, 70); 
-    }
-}
-
-function setCardStackSpacing(padding, translate) {
-    const cardBlocks = document.querySelectorAll('.hand');
-    
-    cardBlocks.forEach((cardBlock) => {
-        cardBlock.style.paddingRight = `${Math.max(cardBlock.children.length, 1)*padding}px`;
-        Array.from(cardBlock.children).forEach(
-            (card, i) => (card.style.transform = `translateX(${i*translate}%)`)
-        );
-    });
-}
-
-const xsViewMax = window.matchMedia('(max-width: 370px)')
-const smViewMin = window.matchMedia('(min-width: 371px)')
-
-const smViewMax = window.matchMedia('(max-width: 576px)')
-const medViewMin = window.matchMedia('(min-width: 577px)')
-
-const medViewMax = window.matchMedia('(max-width: 768px)')
-const lgViewMin = window.matchMedia('(min-width: 769px)')
-
-const lgViewMax = window.matchMedia('(max-width: 992px)')
-const xlViewMin = window.matchMedia('(min-width: 993px)')
-
-xsViewMax.addListener(handleXsViews);  // Attach listener function on state changes
-handleXsViews(xsViewMax);  // Call listener function at run time
-
-smViewMin.addListener(handleSmViews);
-handleSmViews(smViewMin);
-
-
-smViewMax.addListener(handleSmViews);
-// handleSmViews(smViewMax); 
-
-medViewMin.addListener(handleMedViews);
-handleMedViews(medViewMin); 
-
-
-medViewMax.addListener(handleMedViews);
-// handleMedViews(medViewMax); 
-
-lgViewMin.addListener(handleLgViews); 
-handleLgViews(lgViewMin);
-
-
-lgViewMax.addListener(handleLgViews);
-// handleLgViews(lgViewMax); 
-
-xlViewMin.addListener(handleXlViews); 
-handleXlViews(xlViewMin);
-
-</script>
-
 
 <%- include('partials/footer.ejs') %>

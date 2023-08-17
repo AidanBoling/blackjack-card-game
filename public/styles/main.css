@@ -26,6 +26,8 @@
     --grey-dark-1-p: 73, 80, 87;
     --grey-dark-2: rgb(52, 58, 64);
     --grey-dark-2-p: 52, 58, 64;
+    --grey-dark-3: rgb(25, 28, 31);
+    --grey-dark-3-p: 25, 28, 31;
     --grey-darkest: rgb(21, 21, 21);
     --grey-darkest-p: 21, 21, 21;
 
@@ -35,6 +37,8 @@
     --green-p: 25, 135, 63;
     --green-dark-1: rgb(17, 100, 46);
     --green-dark-1-p: 17, 100, 46;
+    --green-dark-2: rgb(10, 66, 30);
+    --green-dark-2-p: 10, 66, 30;
 
     --plum-light-2: rgb(147, 24, 69);
     --plum-light-2-p: 147, 24, 69;
@@ -51,6 +55,8 @@
     --core-p: var(--green-p);
     --core-dark-1: var(--green-dark-1);
     --core-dark-1-p: var(--green-dark-1-p);
+    --core-dark-2: var(--green-dark-2);
+    --core-dark-2-p: var(--green-dark-2-p);
 
     --core-comp-light-1: var(--plum-light-2);
     --core-comp-light-1-p: var(--plum-light-2-p);
@@ -65,6 +71,8 @@
     --neutral-dark-1-p: var(--grey-dark-1-p);
     --neutral-dark-2: var(--grey-dark-2);
     --neutral-dark-2-p: var(--grey-dark-2-p);
+    --neutral-dark-3: var(--grey-dark-3);
+    --neutral-dark-3-p: var(--grey-dark-3-p);
 
     --dark: var(--grey-darkest);
     --dark-p: var(--grey-darkest-p);
@@ -74,9 +82,10 @@
 
     --fs-xs: .8rem;
     --fs-sm: 1rem;
-    --fs-m: 1.5rem;
-    --fs-lg: 2rem;
-    --fs-xl: 3rem;
+    --fs-m: 1.25rem;
+    --fs-lg: 1.5rem;
+    --fs-xl: 2rem;
+    --fs-xxl: 2.5rem;
 
 
     /* > Other */
@@ -107,12 +116,16 @@
     --border-color: var(--neutral-dark-2);
     --border-color-p: var(--neutral-dark-2-p);
     --border-width: 1px;
+    --page-margin-x: 20vw;
 
     --component-margin-y: .7rem;
     --component-margin-x: 1rem;
 
     /* --flex-item-margins: 5rem; */
-    --header-footer-height: 7vh;
+    --header-footer-height: 8vh;
+    --main-rows-spacing: 1.5vh;
+    --footer-padding: 0 var(--page-margin-x);
+    --header-z-index: 16;
 
 
     /* >> Hand sections (dealer/player) */
@@ -121,10 +134,10 @@
     --hand-max-height: 30vh;
     --hand-width: 90%;
     --hand-margin-y: 0;
-    --hand-margin-x: 10vw;
+    --hand-margin-x: var(--page-margin-x);
     --hand-padding-y: var(--card-margin-y);
-    /* sections-min-height: ; */
-
+    
+    --card-group-min-width: 75%;
 
 
     /* > Components */
@@ -163,24 +176,26 @@
     --btn-close-bg-gradient: ;
     --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75)); */
 
-    /* >> cards */
+    /* >> Cards */
 
-    --card-aspect-ratio: 113 / 157;
+    --card-aspect-ratio: 112 / 157;
     --card-height: 28vh;
 
-    --card-bg: rgba(var(--background-color-p), 0.4);
+    --card-bg: transparent;
     --card-text-color: var(--text-color);
     --card-border-color: rgba(var(--border-color-p), 0.8);
-    --card-border-width: var(--border-width);
-    --card-border-radius: var(--border-radius);
+    --card-border-width: 0;
+    --card-border-radius: .65rem;
     --card-inner-shadow: inset 0 1px 3px 2px rgba(var(--dark-p), .15);
-    --card-box-shadow: var(--box-shadow-sm);
+    --card-box-shadow: var(--box-shadow);
 
     --card-margin-y: .5rem;
     --card-margin-x: var(--component-margin-x);
 
     --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
     --card-empty-bg: rgba(var(--dark-p), .4);
+    --card-empty-bd-width: var(--border-width);
+    --card-empty-bd-color:rgba(var(--border-color-p), 0.8);
 
     --card-hover-box-shadow: var(--box-shadow);
     /* --card-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
@@ -217,6 +232,7 @@ html {
 }
 
 body {
+
     width: 100% !important;
     min-height: 100%;
     padding: 0;
@@ -226,7 +242,10 @@ body {
     font-family: var(--font-family);
     
     background-color: var(--background-color);
+    overflow-x: hidden;
+
 }
+
 
 /* 
 
@@ -271,11 +290,35 @@ body > div {
 
 .main-container {
     /* --row-max: calc(calc(100vh - 70px) / 2); */
-    display: grid;
+    /* --header-footer-height: 8; */
+
+    /* --main-spacer-height: 2vh; */
+    /* --main-min-height: calc(100 - (var(--hd-ft-height) * 2)); */
+
+    /* --grid-row-1-3-height: 'calc based on min-height minus spacer';
+    --main-rows-main-ht-calc: calc((var(--main-min-height) - var(--main-spacer-height)) / 2);
+    --main-rows-height: calc(var(--main-rows-main-ht-calc) * 1vh); */
+
+    /* min-height: calc(var(--main-min-height) * 1vh); */
+
+
     /* grid-template-rows: minmax(150px, var(--row-max)) 1fr minmax(150px, var(--row-max)); */
-    grid-template-rows: 3fr auto 3fr;
+    /* grid-template-rows: 38vh auto 38vh; */
+    
+    /* grid-template-rows: var(--main-rows-height) var(--main-spacer-height) var(--main-rows-height); */
+    /* grid-template-rows: var(--main-rows-height) auto var(--main-rows-height); */
+
+    --main-min-height: calc(100vh - (var(--header-footer-height) * 2));
+    
+    min-height: var(--main-min-height);
+
+    display: grid;
+    grid-template-rows: auto var(--main-rows-spacing) auto;
+    /* grid-template-rows: calc(var(--main-min-height) / 2) calc(var(--main-min-height) / 2); */
     grid-template-columns: 100vw;
-    min-height: 86vh;
+
+    align-self: center;
+    contain: strict;
 } 
 
 
@@ -284,13 +327,199 @@ body > div {
 
 /* COMPONENTS */
 
-/* form {
-    margin: 0 !important;
+
+/*  > Modal */
+
+
+div.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    overflow-y: hidden;
+    z-index: calc(var(--header-z-index) + 1);
+    /* transition: all ease-in-out 15s; */
+
+}
+
+
+#modal-bg, div.modal-bg {
+
+    background: rgba(var(--dark-p), .8);
+    
+    height: 100%;
+    width: 100%;
+
+    display: flex; 
+    position: fixed;
+    top: 0;
+    z-index: calc(var(--header-z-index) + 2);
+
+    overflow: clip; 
+    contain: strict;
+    
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-color);
+
+    /* transition: display .5s ease-in-out; */
+}
+
+div.modal-body > * {
+    color: var(--text-color);
+}
+
+div.modal-body {
+    /* transition: display .5s ease-in-out; */
+    --modal-background: rgba(var(--neutral-dark-3-p), .90);
+
+    --modal-width: 65vw;
+    --modal-height: 60vh;
+    --modal-spacing: calc(1rem + 1vw);
+    --modal-body-padding: calc(var(--modal-spacing) * 1.5);
+    --modal-border-radius: 1.1rem;
+
+    --modal-title-fs: calc(var(--fs-xxl) + 4px);
+    --modal-title-fw: normal;
+    --modal-content-fs: var(--fs-m);
+
+    --modal-btn-size-adjust: 1.25;
+    --modal-footer-btn-w: calc(var(--btn-min-width) * var(--modal-btn-size-adjust));
+
+    background: var(--modal-background);
+    
+    width: var(--modal-width);
+    height: var(--modal-height);
+    padding: var(--modal-body-padding);
+    border-radius: var(--modal-border-radius);
+
+    justify-self: center;
+    align-self: center;
+
+    display: flex !important;
+    flex-direction: column;
+    align-content: stretch;
+
+    position: fixed;
+    z-index: calc(var(--header-z-index) + 3);
+    contain: strict;
+
+    box-shadow: var(--box-shadow-lg);
+
+    /* overflow-y: scroll; */
+}
+
+div.modal-body > * {
+    z-index: calc(var(--header-z-index) + 4);
+    padding: var(--modal-spacing);
+}
+
+
+/* >> Modal body sections */
+
+div.modal-body .modal-header {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto 50px;
     padding: 0;
-} */
+}
+
+.modal-header.border {
+    border-width: 0;
+    border-bottom: 1px solid rgba(var(--grey-dark-1-p), .9)
+}
+
+div.modal-title {
+    
+    color: var(--text-color);
+    margin: var(--modal-spacing);
+
+    display: flex;
+    justify-content: center;
+    /* align-self: top; */
+    grid-area: 1 / 1 / -1 / -1;
+}
+
+div.modal-title * {
+   margin: 0;
+   font-size: var(--modal-title-fs) !important;
+   font-weight: var(--modal-title-fw);
+
+}
+
+div.modal-body .dismiss-btn { 
+    grid-area: 1 / -2 / -1 / -1;
+
+    padding: 0;
+    margin: 0;
+    min-width: fit-content;
+    align-self: flex-start; 
+
+    text-align: end;
+    transform: translate(45%, -50%);
+    font-size: var(--fs-xxl);
+}
+
+div.modal-body .modal-content { 
+    flex: 1;
+    font-size: var(--modal-content-fs);
+}
+
+div.modal-footer {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.modal-footer button {
+
+    width: var(--modal-footer-btn-w);
+    height: calc(var(--modal-footer-btn-w) * 0.35);
+    margin: var(--modal-spacing);
+    
+    flex-shrink: 0;
+    font-size: calc(var(--modal-content-fs) * var(--modal-btn-size-adjust)) !important;
+    font-size: calc(var(--btn-font-size) * var(--modal-btn-size-adjust)) !important;
+
+}
 
 
-/* > Card slots */
+.mdl.hide, .modal.hide, .modal-body.hide, .modal-bg.hide, .modal-container.hide {
+    display: none !important;
+}
+
+
+.modal-content.message {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    line-height: 2.20rem;
+    text-align: center !important;
+    vertical-align: center;
+    padding-bottom: 0;
+}
+
+.modal-content.message .lines {
+    font-size: calc(var(--modal-title-fs) * .5);
+    flex: 1;
+}
+
+.modal-content.message .subheader {
+    font-size: calc(var(--modal-title-fs) * .6);
+    font-style: italic;
+    margin-bottom: 1.2rem;
+}
+
+div.modal-body.message .lineEmph {
+    font-size: calc(var(--modal-title-fs) * .75);
+    padding-top: var(--modal-spacing);
+}
+
+
+/* > CARD slots */
 
 .card {
     /* position: relative; */
@@ -305,7 +534,8 @@ body > div {
     height: var(--card-height) !important;
     min-height: 100px;
     margin: var(--card-margin-y) var(--card-margin-x);
-    
+    padding: 0;
+
     color: var(--card-text-color);
     word-wrap: break-word;
     background-color: var(--card-bg) !important;
@@ -314,6 +544,11 @@ body > div {
     border: var(--card-border-width) solid var(--card-border-color) !important;
     border-radius: var(--card-border-radius);
     box-shadow: var(--card-box-shadow) !important; 
+    
+    overflow: hidden;
+
+    /* transition: transform 1s; */
+
 
     /* Card-body... */
     /* // Enable `flex-grow: 1` for decks and groups so that card blocks take up
@@ -359,26 +594,49 @@ body > div {
     &.empty {
         background: var(--card-empty-bg);
         box-shadow: var(--card-empty-box-shadow);
+        border: var(--card-empty-bd-width) solid var(--card-empty-bd-color) !important;
+        border-radius: var(--card-border-radius);
     }
 
     &.stack {
         position: absolute;   
     }
+
+    &.new {
+        /* display: none; */
+        visibility: hidden;
+    }
+
+    /* &.transform {
+        transform: translateX(65%);
+    } */
 }
 
-.card.empty { /*  */
+/* .card.empty {  
     background: var(--card-empty-bg);
     box-shadow: var(--card-empty-box-shadow);
-}
+}*/
 
-.card.new {
+.card.new, .card.hide {
     display: none;
 }
 
 
+.card > img {
+    object-fit: cover;
+    width: 102%;
+    height: 102%;
+    object-position: -2.5px -2.5px;
+
+    /* position: relative; */
+    /* left: -1px;
+    right: -1px; */
+    /* height: -webkit-fill-available; */
+}
 
 
-/* > Buttons */
+
+/* > BUTTONS */
 
 .btn {
     display: inline-block;
@@ -410,41 +668,44 @@ body > div {
     border-width: var(--btn-hover-bd-width);
 }
 
-.dismiss-btn {
-    width: 10px;
-    height: 10px;
-}
+button.btn.core {
+    /* Use core color(s) for modal buttons, instead of complementary */
+    --btn-core-bg-lighter: var(--core-light-1);
+    --btn-core-bg-lighter-p: var(--core-light-1-p);
+    --btn-core-bg-darker: var(--core-dark-2);
+    --btn-core-bg-darker-p: var(--core-dark-2-p);
+    --btn-core-ft-bg: var(--core);
+    --btn-core-ft-bg-grad: linear-gradient(to top, rgba(var(--btn-core-bg-darker-p),0.75) 8%, 20%, rgba(var(--btn-core-bg-lighter-p),0.55), 92%, rgba(var(--btn-core-bg-darker-p),0.75));
+    --btn-core-hover-bg: var(--btn-core-bg-lighter);
 
-.modal {
-
-    display: none;
-    contain: strict;
-    grid-row-start: 1;
-    grid-row-end: 3;
-    grid-column-start: 1;
-    grid-column-end: -1;
-
-    background: rgba(var(--dark-p), .6);
-    width: 80vw;
-    height: 60vw;
-    overflow-y: scroll;
-
-    padding: 20px;
-    border-radius: var(--border-radius);
-
-    &.show {
-        display: flex !important;
-        flex-direction: column;
-        z-index: 4;
+    background: var(--btn-core-ft-bg);
+    background-image: var(--btn-core-ft-bg-grad);
+    
+    &:hover {
+        /* color: var(--btn-hover-text-color); */
+        background-color: var(--btn-core-hover-bg);
+        /* border-color: var(--btn-hover-bd-color);
+        border-width: var(--btn-hover-bd-width); */
     }
-
 }
 
-div.modal.header > h2 {
-    text-align: center;
-    color: var(--text-color);
-    font-size: var(--fs-m);
+.dismiss-btn {
+    background: transparent;
+    border-width: 0;
+
+    color: rgba(var(--neutral-bw-p), .8);
+    font-size: var(--fs-xl);
+    /* width: 20px;
+    height: 20px; */
+
+    &:hover {
+        color: rgba(var(--neutral-bw-p), 1);
+        cursor: pointer;
+    }
 }
+
+
+
 
 
 /* SECTIONS */
@@ -456,9 +717,9 @@ div.modal.header > h2 {
     position: sticky;
     top: 0;
 
-    min-height: var(--header-footer-height);
+    height: var(--header-footer-height);
     align-items: center;
-    z-index: 10;
+    z-index: var(--header-z-index);
 }
 
 #control-bar > .flex {
@@ -469,6 +730,7 @@ div.modal.header > h2 {
 .info-box {
     margin: var(--component-margin-y) var(--component-margin-x) !important;
     cursor: pointer;
+    z-index: calc(var(--header-z-index) + 5);
 }
 
 #control-bar > form {
@@ -479,14 +741,19 @@ div.modal.header > h2 {
 
 
 
-
 /*  > Body sections (dealer + player hands, etc) */
 
 
-#dealer {margin-bottom: 2.5vh; order: 0; }
+#dealer, #player { 
+    padding-top: var(--main-rows-spacing);
+    padding-bottom: var(--main-rows-spacing); 
+}
+
+#dealer {
+    order: 0; 
+}
 
 #player {
-    margin-top: 2.5vh;
     grid-row-start: 3;
     order: 2;
 }
@@ -511,7 +778,9 @@ div.hand {
     background-color: var(--hand-bg);
 
     min-height: var(--hand-height);
-    max-height: var(--hand-max-height);
+    /* max-height: var(--hand-max-height); */
+    height: 100%;
+
     margin: var(--hand-margin-y) var(--hand-margin-x);
     padding: var(--hand-padding-y) 0;
     
@@ -519,9 +788,37 @@ div.hand {
     border-radius: var(--border-radius);
 
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    
+    contain: strict;
+
+    overflow: hidden;
 }
 
+div.hand-group {
+    flex-shrink: 0;
+    display: inline-flex;
+    --card-group-max-width: 90%;
+
+    background: transparent;
+    border-width: 0;
+
+    height: 100%;
+    margin: 0;
+    /* margin: var(--hand-margin-y) var(--hand-margin-x); */
+    /* width: var(--card-group-max-width); */
+
+    /* min-width: 70%; */
+    min-width: calc(100% - 5vw);
+    min-width: var(--card-group-min-width);
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+
+    /* contain: content; */
+    overflow: visible !important;
+
+}
 
 
 /*  > Bottom/footer Sections*/
@@ -533,19 +830,20 @@ div.hand {
 
     min-height: var(--header-footer-height);
     width: 100vw;
+    /* padding: var(--footer-padding); */
     overflow: hidden;
 
     align-items: center;
-    z-index: 10;
+    z-index: calc(var(--header-z-index) - 2);
 }
 
 .footer > form { 
-    margin: 0; 
+    margin: var(--footer-padding); 
     margin-bottom: .5vh;
 }
 
 #player-options > form {
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
 }
 
@@ -554,12 +852,81 @@ div.hand {
 
 }
 
+@media (max-width: 1200px) {
+    :root {
+        --page-margin-x: 15vw;
+        --modal-width: 70vw;
+    }
+
+    div.modal-body {
+        --modal-width: 70vw;    
+    } 
+}
+
+
+@media (max-width: 992px) {
+    :root {
+        --page-margin-x: 13vw;
+        --modal-width: 80vw;
+    }
+
+    div.modal-body {
+        --modal-width: 80vw;    
+    } 
+}
+
+
+@media (max-width: 768px) {
+
+    :root {
+        --page-margin-x: 10vw;
+
+        --card-height: 45vh;
+        --card-border-radius: .80rem;
+        --card-margin-y: .7rem;
+
+        --card-group-min-width: 85%;
+        --card-group-min-width: 450px;
+    }
+    
+    .hand-group {
+        align-items: flex-start !important;
+    }
+
+    /* #dealer > .hand > .hand-group {
+        align-items: flex-end;
+    }
+
+    #player > .hand > .hand-group {
+        align-items: flex-start;
+    } */
+    
+    .card {
+        transition: transform .25s;
+    }
+}
 
 
 @media (max-width: 576px) {
     :root {
         --hand-width: 95%;
-        --hand-margin-x: 5vw;
+        --page-margin-x: 5vw;
+    }
+
+    div.hand {
+        justify-content: flex-start;
+    }
+
+    div.hand-group {
+        margin-left: 4vw;
     }
 }
 
+@media (max-width: 370px) {
+    :root {
+        /* --page-margin-x: 5vw; */
+        --card-margin-y: .3rem;
+        --card-group-min-width: 430px;
+
+    }
+}

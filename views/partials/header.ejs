@@ -9,7 +9,8 @@
 
 
 </head>
-<body>
+<body class="flex-col">
+    
 
     <div id="control-bar" class="top-bar container flex">
         <div class="flex">
@@ -21,6 +22,70 @@
         <form action="/new" method="POST" class="flex justify-s-end">           
             <button id="new-game" class="btn" name="start" type="submit" value="new" aria-label="New Game">New Game</button>
         </form>
+    </div>
+
+    <div id="message-modal" class="mdl modal-container hide">
+
+        <% if (locals.message) {  %>
+            <script>const clientMessage = true;</script>
+
+            <% if (message.messageCode === 'endRound') { %>
+                <script>const messageCode = 'endRound'; </script>
+            <% } else if (message.messageCode === 'immediate') { %>
+                <script>messageCode = 'immediate'; </script>
+            <% } else { %>
+                <script>messageCode = ''; </script>
+            <% } %>
+
+            <div class="modal-bg" onclick="dismissModal()"></div>
+            <div class="modal-body message">
+                <%# console.log(`EJS received: ${message} with title ${message.title}`); %>
+                <div class="modal-header message border">
+                    <div class="modal-title">
+                        <h2 class="message"><%= message.title %></h2>
+                    </div>
+        
+                    <button type="button" class="modal dismiss-btn" onclick="dismissModal()" aria-label="close">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+        
+                <div class="modal-content message">
+                    <div class="message lines">
+                        <% if (message.text.subheading) { %>
+
+                            <div class="message line subheader"><%= message.text.subheading %></div>
             
-        </div>
+                        <% }; %>
+                        <% message.text.normal.forEach(line => { %>
+
+                            <div class="message line"><%= line %></div>
+            
+                        <% }); %>
+                    </div>
+                    <% message.text.emphasized.forEach(line => { %>
+
+                        <div class="message lineEmph"><%= line %></div>
+        
+                    <% }); %>
+                </div>
+        
+                <div class="modal-footer message">
+                    <form action="/modal"<%= message.formRoute %> method="POST">
+                        <% message.actions.forEach(action => { %>
+        
+                            <button class="btn core" name="modal" type="submit" value="<%= action.value %>" aria-label="<%= action.label %>" >
+                                <%= action.text %>
+                            </button>
+                        
+                        <% }); %>
+                    </form>
+                    <button type="button" class="btn core" onclick="dismissModal()" aria-label="close this dialog"><%= message.closeBtnText %></button>
+                </div>
+            </div>
+        <% } else { %>
+            <script>
+                clientMessage = false;
+            </script>
+        <% } %>
     </div>

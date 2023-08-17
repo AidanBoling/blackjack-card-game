@@ -1,4 +1,278 @@
+    <!-- Game-state variables -->
+    <% if (roundIsActive) { %>
+        <script>let roundActive = true; </script>
+    <% } else { %>
+        <script>roundActive = false; </script>
+    <% } %>
 
+    <% if (participants && participants[1].stay) { %>
+        <script>let whosTurn = 'dealer'; </script>
+    <% } else { %>
+        <script>whosTurn = 'player'; </script>
+    <% } %>
+
+    <script>
+        // console.log(`Message received: ${clientMessage}`)
+
+        const delayEach = 450;
+        const gameOverMsgDelay = 1000;
+        const playerOptionBtns = document.querySelectorAll('button.move')
+        
+        if (!roundActive) { playerOptionBtns.forEach(button => { button.disabled = true; })};
+
+        function showModal() {
+            const modalContainer = document.getElementById('message-modal');
+            modalContainer.classList.remove('hide');
+        }
+
+        function dismissModal() {
+            const modalComps = document.querySelectorAll('.mdl');
+
+            modalComps.forEach(comp => {
+                comp.classList.add('hide');
+            });
+        }
+
+        function handleXsViews(view) {
+            if (view.matches) {
+                // console.log(`MediaQuery XSmall matched!`);
+                setCardStackSpacing(31, true);
+            }
+        }
+
+        function handleSmViews(view) {
+            if (view.matches) {
+                // console.log(`MediaQuery for Small matched!`);
+                setCardStackSpacing(30, true);
+            }
+        }
+
+        function handleMedViews(view) {
+            if (view.matches) {
+                // console.log(`MediaQuery for Med matched!`);
+                setCardStackSpacing(38, true); 
+            }
+        }
+
+        function handleLgViews(view) {
+            if (view.matches) {
+                // console.log(`MediaQuery for Large matched!`);
+                setCardStackSpacing(65, true); 
+            }
+        }
+
+        function handleXlViews(view) {
+            if (view.matches) {
+                // console.log(`MediaQuery for XLarge matched!`);
+                setCardStackSpacing(80, true); 
+            }
+        }
+
+        function breakpointSetUp() {
+
+            const xsViewMax = window.matchMedia('(max-width: 370px)')
+            const smViewMin = window.matchMedia('(min-width: 371px)')
+
+            const smViewMax = window.matchMedia('(max-width: 576px)')
+            const medViewMin = window.matchMedia('(min-width: 577px)')
+
+            const medViewMax = window.matchMedia('(max-width: 768px)')
+            const lgViewMin = window.matchMedia('(min-width: 769px)')
+
+            const lgViewMax = window.matchMedia('(max-width: 992px)')
+            const xlViewMin = window.matchMedia('(min-width: 993px)')
+
+            xsViewMax.addListener(handleXsViews);  // Attach listener function on state changes
+            handleXsViews(xsViewMax);  // Call listener function at run time
+
+            smViewMin.addListener(handleSmViews);
+            handleSmViews(smViewMin);
+
+            smViewMax.addListener(handleSmViews);
+            // handleSmViews(smViewMax); 
+
+            medViewMin.addListener(handleMedViews);
+            handleMedViews(medViewMin); 
+
+            medViewMax.addListener(handleMedViews);
+            // handleMedViews(medViewMax); 
+
+            lgViewMin.addListener(handleLgViews); 
+            handleLgViews(lgViewMin);
+
+            lgViewMax.addListener(handleLgViews);
+            // handleLgViews(lgViewMax); 
+
+            xlViewMin.addListener(handleXlViews); 
+            handleXlViews(xlViewMin);
+
+            // TODO (Maybe/Later) -- reverse the order of handle views (so XL fires first) and set handleViews functions
+            // to only run setCardStackSpacing if some global variable is set (like "spacingSet = true")... would prob need
+            // to also have that variable be reset on a timer...
+        }
+
+
+        // function disableOption() {
+        //     playerOptionBtns.forEach(button => { 
+        //         setTimeout(function() { button.disabled = true; }, 100);
+        //         setTimeout(function() { button.disabled = false; }, 3000);
+        //     });
+        // }
+
+        // playerOptionBtns.forEach(button => {
+        //     button.addEventListener("click", disableOption);
+        // });
+
+        function setCardStackSpacing(translate, paddingDisabled) {
+            const cardContainers = document.querySelectorAll('.hand-group');
+
+            const cardComponent = document.querySelector('.card');
+            const cardHeight = window.getComputedStyle(cardComponent).getPropertyValue('height');
+            const cardWidth = parseInt(cardHeight, 10) * (112 / 157)
+            const translateInit = translate;
+            const translateMin = 18;
+            
+            // const padding = cardWidth - (cardWidth * (translate/100));
+            // console.log(padding);
+            
+            cardContainers.forEach((container) => {
+                const containerWidth = container.offsetWidth
+                const handCards = container.querySelectorAll('div.card');
+                const cardsNum = handCards.length;
+                const cardOverlap = cardWidth * (1 - translate/100);
+                const initWidthAllCards = (cardWidth * cardsNum) - (cardOverlap * (cardsNum - 1));  // Width of all cards, given the initially-set card overlap: 
+
+                let n = 0;
+                let i = 0;
+                let t = translate;
+
+                // IF total width of all cards would overflow container, calculate
+                // a new translate for cards total width = containerWidth, and set it
+                // only IF the new translate is not less than translate minimum:
+                
+                if (containerWidth < initWidthAllCards ) {
+                    const translateNew = 100 * (1 - ((cardsNum - (containerWidth / cardWidth)) / (cardsNum - 1)));
+                    if (translateNew > translateMin) { t = translateNew; }
+                }
+                
+                // console.log(`Container width: ${containerWidth}\nNumber of cards: ${cardsNum}\nInit total cards width: ${initWidthAllCards}\nInitial translate: ${translateInit}\nFinal translate: ${t}`)
+
+                if (cardsNum % 2 === 0) { // if total number of cards is even
+                    // console.log(`If statement for EVEN number triggered`);
+                    n = cardsNum/2;
+                    i = (1/2) - n;
+                
+                } else { // if total number of cards is odd
+                    // console.log(`If statement for ODD number triggered`);
+                    n = (cardsNum - 1)/2;
+                    i = -n;
+                }
+                
+                handCards.forEach(card => {
+                    card.style.transform = `translateX(${i * t}%)`;
+                    i += 1;
+                });
+
+                // if (!paddingDisabled) {
+                //     container.style.paddingRight = `${Math.max(cardsNum, 1) * padding}px`;
+                // } else { container.style.paddingRight = `0px` }
+
+                // handCards.forEach(
+                //     (card, i) => (card.style.transform = `translateX(${i*translate}%)`)
+                // );
+            });
+        }
+
+        function revealCards(delayEach) { 
+            const newCards = document.querySelectorAll('.card.new');
+            let delay = 0;
+            
+            if (newCards) {
+                let cardDealOrder = [];
+                if (whosTurn === 'dealer' || newCards.length === 1) { 
+                    newCards.forEach(card => { 
+                        setTimeout(function(){ card.classList.remove('new') }, delay += delayEach);
+                    });
+                } else { 
+                    if (newCards.length === 4) {
+                        cardDealOrder = [2,0,3,1];
+                        
+                        cardDealOrder.forEach(i => { 
+                            setTimeout(function(){ newCards[i].classList.remove('new') }, delay += 350);
+                        });
+
+                    } else if (newCards.length === 2) {
+                        // if (whosTurn === 'dealer') { cardDealOrder = [0,1]; }
+                        // else { 
+                        cardDealOrder = [1,0]; 
+                        // }
+                        cardDealOrder.forEach(i => { 
+                            setTimeout(function(){ newCards[i].classList.remove('new') }, delay += delayEach);
+                        });
+
+                    // } else if (newCards.length === 1) {
+                    //     setTimeout(function(){ newCards[0].classList.remove('new') }, delay += delayEach);
+                    }
+                }
+
+                console.log('New card reveal is complete; checking for messages')
+                
+                if (clientMessage) {
+                    console.log('Message found');
+                    let delayBy = delayEach;
+                    
+                    if (messageCode) {
+                        if (messageCode === 'endRound') { 
+                            console.log('Message code: endRound');
+                            delayBy = delay + delayEach;
+                        } else { console.log(`Message code: ${messageCode}`); }
+                    }
+                    
+                    messageRouting(delayBy);
+                }
+                else { console.log('There appear to be no messages to display'); }
+
+            } else {
+                console.log('No new cards to reveal; checking for messages');
+
+                if (clientMessage) {
+                    console.log(`Message found. Code: ${messageCode}`);
+                    messageRouting(delayEach);
+                } else { console.log('There appear to be no messages to display'); }
+            } 
+        } 
+
+        function messageRouting(delayMsgBy) {
+            console.log ('Message routing has begun')
+
+            if (clientMessage) {
+                console.log('Message found');
+        
+                if (messageCode === 'endRound') {
+                    console.log('Message being routed to "end round" sequence');
+                    const cardRevealDelay = delayEach;
+                    try { 
+                        setTimeout(function(){ 
+                            const cardFacedown = document.getElementById('d1');
+
+                            cardFacedown.setAttribute('src', dcImage);
+                            cardFacedown.setAttribute('alt', dcAltText);
+                            setTimeout(function(){ showModal('message-modal') }, cardRevealDelay + gameOverMsgDelay);
+                        }, delayMsgBy + cardRevealDelay); // Delay time before hidden card revealed
+                    } catch (error) { console.log('There was some kind of error retrieving hidden dealer card. \nError message: ' + error.message); }
+
+                } else if (messageCode === 'immediate') {
+                    console.log('Message being routed to "immediate" sequence');
+                    setTimeout(function() { showModal('message-modal') }, delayMsgBy);
+                } else { console.log('No message code found and/or message routing failed\nMessage not displayed'); }
+
+            } else { console.log('No message found to route'); }
+        }
+
+        revealCards(delayEach);
+        breakpointSetUp();
+
+    </script>
 
 </body>
 </html>
