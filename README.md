@@ -16,7 +16,7 @@ git clone https://github.com/AidanBoling/blackjack-card-game
 2. From the command line, navigate into the project folder, then run this command to install the necessary packages:
 
 ```sh
-node install
+npm install
 ```
 
 3. Start the server by running the last command:
