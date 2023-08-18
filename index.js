@@ -5,7 +5,8 @@ const app = express();
 const port = 3000;
 const config = { baseURL: 'https://deckofcardsapi.com/api/deck/', }
 
-let deckID = 'gkxwgixyhm9j';
+// let deckID = 'gkxwgixyhm9j';
+let deckID = '';
 let round = 0;
 let roundActive = false;
 let showAll = false;
@@ -129,12 +130,15 @@ let whosTurn = player.who;
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
+
+// ROUTING
+
 app.get('/', (req, res) => {
     console.log('(Re)loading webpage.');
-    
+
     let participantList = participants;
 
-    if (!deckID || player.cards.length===0 || dealer.cards.length===0) {
+    if (deckID === '' || player.cards.length===0 || dealer.cards.length===0) {
         participantList = '',
         console.log(`Game reset. Round: ${round}`)
     } 
@@ -165,49 +169,28 @@ app.get('/', (req, res) => {
 
     player.cards.forEach(card => { card.dealt = true });
     dealer.cards.forEach(card => { card.dealt = true });
+
+    // Q: Can maybe do modalMessage clear here, only, instead of multiple other places?
 });
 
 
 // Start new game -- get new decks + shuffle
 
 app.post('/new', async (req, res) => {
-    
-    if (req.body.start === 'new') {
-        clearStats(); }
-    if (req.body.start === 'continue') {
-        // Todo LATER: if already deck ID/game in progress, show confirmation dialog
+    modalMessage = ''; // Clear any messages
+
+    if (req.body.start === 'new') { clearStats(); }
+    if (req.body.start === 'continue') { 
+        // To-do (LATER): if already deck ID/game in progress, show confirmation dialog
     }
 
-    // If already have a deck, clear and shuffle deck instead of getting new deck
-    if (deckID) { startNewRound(res); }
-    else {
-        const deck = await getNewDeck();
-        if (deck) { initialDeal(res); }
-    }    
+    // If already have a deck, clear and shuffle deck instead of getting new deck:
+    roundPreCheck(res);
 });
 
-async function getNewDeck() {
-    try {
-        const endpoint = 'new/shuffle/?deck_count=6';
-        const response = await axios.get(endpoint, config);
-        const deckID = response.data.deck_id;
-        console.log(`Deck ID: ${deckID}`);
-
-        return response.data.shuffled
-
-    } catch (error) {
-        console.error("Failed to make request:", error.message);
-        // res.status(500) ...???
-
-        //TODO: create error dialog on ejs -- and set... if (locals.error) { <<dialog html>> }
-        //TODO: set error message to display:
-        // res.render("index.ejs", { error: "Whoops! Something went wrong. Click button to refresh to try again." });
-        res.redirect('/');
-    }
-}
-
-
 app.post('/player-move', (req, res) => {
+    modalMessage = ''; // Clear any messages
+
     if (whosTurn === 'player') { 
         console.log('Player\'s move request received');
 
@@ -226,40 +209,84 @@ app.post('/player-move', (req, res) => {
 });
 
 app.post('/modal', (req, res) => {
+    modalMessage = ''; // Clear any messages
+
     if (req.body.modal === 'continue' || req.body.modal === 'confirm') { 
-        startNewRound(res);
+        // Start new round
+        roundPreCheck(res);
+        // startNewRound(res);
     } else {
-        // If button option not "continue", clear message and re-load page.
-        modalMessage = '';
+        // If button option not "continue", re-load page.
         res.redirect('/');
     }
 
 });
 
+
+
+// DECK SETUP & CHECK
+
+async function roundPreCheck(response) {
+    //Check if a deck already exists. If so, shuffle deck
+    console.log('Precheck')
+    if (deckID) { 
+        console.log(`Existing deck ID: ${deckID}`);
+        startNewRound(response);
+
+    } else {
+        const deck = await getNewDeck(response);
+
+        if (deck) { initialDeal(response); }
+        else { res.redirect('/'); }
+    }    
+}
+
+
+async function getNewDeck(res) {
+    try {
+        const endpoint = 'new/shuffle/?deck_count=6';
+        const response = await axios.get(endpoint, config);
+        
+        deckID = response.data.deck_id
+        console.log(`Deck ID: ${response.data.deck_id}`);
+
+        return response.data.shuffled;
+
+    } catch (error) {
+        console.error("Request failed: ", error.message);
+        errorMessage(['Unable to get new deck.', `(Error code: ${error.response.status})`, 'Try waiting a moment, then refresh the page and try again.'])
+    }
+}
+
+
+// GAMEPLAY
+
 async function initialDeal(res) {
     round += 1;
     roundActive = true;
 
-    const cards = await drawCards(4);
+    try {
+        const cards = await drawCards(4);
 
-    // Deal each card, alternating player then dealer
-    player.addToHand(cards[0])
-    dealer.addToHand(cards[1])
-    player.addToHand(cards[2])
-    dealer.addToHand(cards[3])  
+        // Deal each card, alternating player then dealer
+        player.addToHand(cards[0])
+        dealer.addToHand(cards[1])
+        player.addToHand(cards[2])
+        dealer.addToHand(cards[3])  
+        
+        // Check (& set) point totals
+        player.checkTotal();
+        dealer.checkTotal();
+        
+    } catch (error) { console.error("Initial deal failed:", error.message); 
+    } finally { res.redirect('/'); } // Update app
     
-    // Check (& set) point totals
-    player.checkTotal();
-    dealer.checkTotal();
-    
-    // Update app display
-    res.redirect('/');
 }
 
 
 async function drawCards(num) {
     try {
-        const endpoint = `${deckID}/draw/?count=${num}`;
+        const endpoint = deckID + `/draw/?count=${num}`;
         const response = await axios.get(endpoint, config);
         const cards = response.data["cards"];
 
@@ -267,8 +294,13 @@ async function drawCards(num) {
         console.log(cards);
         
         return cards;
-    } catch (error) { console.error("Failed to make request:", error.message); }
+
+    } catch (error) { 
+        console.error("Draw cards request failed: ", error.message);
+        errorMessage(['Something went wrong -- Unable to draw cards']);
+    }
 }
+
 
 function toggleWhosTurn(res) {
     console.log(`It was: ${whosTurn}'s turn`) 
@@ -286,6 +318,7 @@ function toggleWhosTurn(res) {
     }
 }
 
+
 function dealerMove(res) {
 
     console.log('The dealer is moving.');
@@ -297,8 +330,9 @@ function dealerMove(res) {
     else { 
         console.log('Dealer is going to stay');
         stay(dealer, res);  
-    };
+    }
 }
+
 
 async function hit(response) {
     console.log(`${whosTurn} is hitting.`);
@@ -320,6 +354,7 @@ async function hit(response) {
     }
 }
 
+
 function stay(hand, response) {
     console.log(`${whosTurn} is staying.`);
 
@@ -328,7 +363,6 @@ function stay(hand, response) {
     if (player.stay && dealer.stay) { endRound(response); }
     else { toggleWhosTurn(response); }
 }
-    
 
 
 function endRound(res) {
@@ -365,8 +399,83 @@ function endRound(res) {
 
     // Re-render the page, to show the cards and then the end-of-round modal.
     res.redirect('/');
-
 }
+
+
+// START/END ROUNDS
+
+async function startNewRound(response) {
+    
+    const cleared = resetCards(); // Clear the cards and cardValue lists (keep stats)
+    
+    // modalMessage = ''; // Clear message, so doesn't appear when page re-rendered
+
+    try {
+        if (cleared) {
+            const shuffled = await shuffleDeck();
+            if (shuffled) { initialDeal(response); };
+        } 
+    } catch { console.log('Failed to start new round');
+        // Also add errorMessage and res.redirect here??
+    }
+
+    // Question -- can this be re-worked better using "Promise.all", or something?
+}
+
+
+async function shuffleDeck(res) {
+    try {
+        const endpoint = deckID + '/shuffle';
+        const response = await axios.get(endpoint, config);
+        
+        console.log(`Deck shuffled: ${response.data.shuffled}`);
+
+        return response.data.shuffled;
+
+    } catch (error) {
+        console.error("Shuffling deck failed: ", error.message);
+        
+        errorMessage(['Something when wrong with shuffling the deck.', `(Error code: ${error.response.status})`, 'Try waiting a moment, then refresh the page and click "New Game".'])
+        
+        res.redirect('/');
+    }
+}
+
+
+function clearStats() {
+
+    round = 0; 
+    player.wins = 0; 
+    dealer.wins = 0;
+
+    if (player.wins === 0) { return true; } 
+    else { return false; }
+}
+  
+
+function resetCards() {
+    whosTurn = player.who;
+
+    // while (player.points !== 0 && dealer.points !== 0)
+    showAll = false;
+
+    participants.forEach(p => {
+        p.cards = [];
+        p.cardValues = [];
+        p.resetPoints;
+        p.stay = false;
+    });
+
+    console.log(`Player points: ${player.points}, Dealer points: ${dealer.points}`)
+    
+    if (player.points === 0 && dealer.points === 0) {
+        return true;
+    } else { 
+        return false;
+    }
+}
+
+// MESSAGES:
 
 function declareWinner(winner, reason) {
     console.log('Setting up declare-winner message');
@@ -410,78 +519,21 @@ function declareWinner(winner, reason) {
 
 }
 
-async function startNewRound(response) {
-    // Clear the cards and cardValue lists (keep stats)
-    const cleared = resetCards();
-    
-    // Clear message, so doesn't appear when page re-rendered
-    modalMessage = '';
+function errorMessage(message) {
+    let title = "Hmmm... That didn't work";
+    let text = {
+        normal: message,
+        emphasized: '', 
+    };
+    let formRoute = '/modal';
+    let actions = '';
+    let closeBtn = 'Close';
+    let code = 'immediate';
 
-    if (cleared) {
-        const shuffled = await shuffleDeck();
-
-        initialDeal(response);
-    } 
-
-    // Note -- can this be re-worked better using "Promise.all", or something?
+    modalMessage = new ModalMessage(title, text, formRoute, actions, closeBtn, code);
 }
 
-
-async function shuffleDeck() {
-    try {
-        const endpoint = `${deckID}/shuffle`;
-        const response = await axios.get(endpoint, config);
-        
-        console.log(`Deck shuffled: ${response.data.shuffled}`)
-
-        return response.data.shuffled
-
-    } catch (error) {
-        console.error("Failed to make request:", error.message);
-        // res.status(500) ...???
-
-        //TODO: create error dialog on ejs -- and set... if (locals.error) { <<dialog html>> }
-        //TODO: set error message to display:
-        // res.render("index.ejs", { error: "Whoops! Something went wrong. Please refresh to try again." });
-    }
-
-}
-
-
-function clearStats() {
-
-    round = 0; 
-    player.wins = 0; 
-    dealer.wins = 0;
-
-    if (player.wins === 0) { return true; } 
-    else { return false; }
-}
-  
-
-function resetCards() {
-    whosTurn = player.who;
-
-    // while (player.points !== 0 && dealer.points !== 0)
-    showAll = false;
-
-    participants.forEach(p => {
-        p.cards = [];
-        p.cardValues = [];
-        p.resetPoints;
-        p.stay = false;
-    });
-
-    console.log(`Player points: ${player.points}, Dealer points: ${dealer.points}`)
-    
-    if (player.points === 0 && dealer.points === 0) {
-        return true;
-    } else { 
-        return false;
-    }
-}
-
-function testMessage() {
+function welcomeMessage(message) {
     let title = '♡♧ Blackjack ♤♢';
     let text = {
         normal: ['Hi there!', 'Welcome to my card game app.'],
@@ -499,38 +551,9 @@ function testMessage() {
 }
 
 
-testMessage();
+welcomeMessage();
 
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-
-// new Promise.all(myinsts.map(Organization.getOrgById)).then(res.json).catch(res.status(500).json)
-
-// TODO: Clean up error messages
-
-
-
-// [x] TODO: Grey out/disable other buttons (or something) if no deck id.
-
-// [x] TODO Set dealer card to show faceup when round ends
-
-// [x] TODO: Add confirmation dialog to ask play again? 
-    // Ask user if continue. if yes, shuffle & clear, then initial draw.
-    // If no, close modal
-
-// [x]TODO: add win to appropriate participant
-
-// [x] ToDo: dealer move calcs
-
-// [x] TODO...Send card images to ejs... maybe even figure out how to send
-//images as like svg code or something, so that it's harder for ppl to cheat
-// (say, if they know their way around google chrome Dev Tools)
-
-//[x]TODO: Set dealer card #d1 to be facedown...
-// [x] ToDo: clear stats, empty card counts, shuffledeck, etc.) 
-
-// [X] TODO: After cards rendered, set card.dealt = true for all cards in each hand 
-// [ X ] ToDo: general card calcs once card assigned

@@ -1,3 +1,4 @@
+
 <%- include('partials/header.ejs') %>
 
 <div class="main-container flex-col">
@@ -11,14 +12,11 @@
                     <div class="hand-group flex">
                     <% if (p.cards.length === 0) { %>
 
-                        <!-- If no cards yet, show empty card spaces -->
                             <div class="card stack empty"></div>
                             <div class="card stack empty"></div>
                     
                     <% } else { %>
 
-                        <!-- Renders the cards already dealt before immediately
-                        but keeps "undealt" cards hidden (via "tag = 'new'") -->
                         <% p.cards.forEach(card => { %>
                             <% let img = card.image; %>
                             <% let altText = `${card.value} of ${card.suit}`; %>

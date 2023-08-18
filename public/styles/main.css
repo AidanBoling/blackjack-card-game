@@ -31,14 +31,20 @@
     --grey-darkest: rgb(21, 21, 21);
     --grey-darkest-p: 21, 21, 21;
 
-    --green-light-1: rgb(38, 175, 86);
-    --green-light-1-p: 38, 175, 86;
-    --green: rgb(25, 135, 63);
-    --green-p: 25, 135, 63;
-    --green-dark-1: rgb(17, 100, 46);
-    --green-dark-1-p: 17, 100, 46;
-    --green-dark-2: rgb(10, 66, 30);
-    --green-dark-2-p: 10, 66, 30;
+    /* --green-light-2: rgb(75, 196, 42);
+    --green-light-2-p: 84, 180, 53; */
+    --green-light-2: rgb(11, 189, 62);
+    --green-light-2-p: 11, 189, 62;
+    --green-light-1: rgb(5, 148, 45);
+    --green-light-1-p: 5, 148, 45;
+    --green: rgb(3, 124, 38);
+    --green-p: 3, 124, 38;
+    --green-dark-1: rgb(5, 90, 25);
+    --green-dark-1-p: 5, 90, 25;
+    --green-dark-2: rgb(2, 59, 16);
+    --green-dark-2-p: 2, 59, 16;
+    --green-dark-3: rgb(1, 35, 9);
+    --green-dark-3-p: 1, 35, 9;
 
     --plum-light-2: rgb(147, 24, 69);
     --plum-light-2-p: 147, 24, 69;
@@ -49,19 +55,40 @@
     --plum-dark-1: rgb(67, 7, 29);
     --plum-dark-1-p: 67, 7, 29;
 
-    --core-light-1: var(--green-light-1);
-    --core-light-1-p: var(--green-light-1-p);
-    --core: var(--green);
-    --core-p: var(--green-p);
-    --core-dark-1: var(--green-dark-1);
-    --core-dark-1-p: var(--green-dark-1-p);
+    --red-light-1: rgb(178, 24, 60);
+    --red-light-1-p: 178, 24, 60;
+    --red: rgb(218, 39, 69);
+    --red-p: 160, 13, 38;
+
+    --red-light-1: rgb(192, 31, 57);
+    --red-light-1-p: 192, 31, 57;
+    --red: rgb(181, 25, 51);
+    --red-p: 181, 25, 51;
+
+    --green-yellow: rgb(168, 255, 54);
+    --green-yellow-p: 168, 255, 54;
+    --yellow: rgb(255, 218, 54);
+    --yellow-p: 255, 218, 54;
+
+
+    --core-light-1: var(--green-light-2);
+    --core-light-1-p: var(--green-light-2-p);
+    --core: var(--green-light-1);
+    --core-p: var(--green-light-1-p);
+    --core-dark-1: var(--green);
+    --core-dark-1-p: var(--green-p);
     --core-dark-2: var(--green-dark-2);
     --core-dark-2-p: var(--green-dark-2-p);
 
-    --core-comp-light-1: var(--plum-light-2);
+    /* --core-comp-light-1: var(--plum-light-2);
     --core-comp-light-1-p: var(--plum-light-2-p);
     --core-comp: var(--plum-light-1);
-    --core-comp-p: var(--plum-light-1-p);
+    --core-comp-p: var(--plum-light-1-p); */
+    
+    --core-comp-light-1: var(--red-light-1);
+    --core-comp-light-1-p: var(--red-light-1-p);
+    --core-comp: var(--red);
+    --core-comp-p: var(--red-p);
     --core-comp-dark-1: var(--plum);
     --core-comp-dark-1-p: var(--plum-p);
 
@@ -90,13 +117,10 @@
 
     /* > Other */
 
-    /* --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .075); */
+    --box-shadow-xs: 0 .125rem .25rem rgba(var(--black), .075);
     --box-shadow-sm: 0 .125rem .25rem rgba(var(--black), .20);
-    /* --box-shadow: 0 .5rem 1rem rgba(var(--black), .15); */
     --box-shadow: 0 .5rem .9rem rgba(0, 0, 0, 0.25);
-    /* --box-shadow-lg: 0 1rem 2rem rgba(var(--black), .175); */
     --box-shadow-lg: 0 1rem 1.5rem rgba(var(--black), .3);
-    /* --box-shadow-inset: inset 0 1px 2px rgba(var(--black), .075); */
     --box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.299);
 
     
@@ -107,10 +131,13 @@
 
     --text-color: rgb(var(--white));
     --font-size: var(--fs-sm);
-    --font-family: Arial, Helvetica, sans-serif;
+    --font-family: 'M PLUS 1p', sans-serif;
 
-    --background-color: var(--core);
-    --background-color-p: var(--core-p); /* Using the partial b/c of other dependent variables; be sure to wrap in rgb() or rgba() whenever used */
+    --background-color: var(--dark);
+    --background-color-p: var(--core-p);
+    --secondary-grad: rgba(var(--dark-p), .4), 10%, rgba(var(--green-light-1-p), 0.3), transparent;
+    --main-grad: rgba(var(--dark-p), 1), 4%, rgba(var(--green-dark-1-p), .3), 20%, rgba(var(--green-light-1-p), 0.2), transparent;
+    --background-grad: linear-gradient(to bottom, var(--secondary-grad)), linear-gradient(to top, var(--secondary-grad)), linear-gradient(to left, var(--main-grad)), linear-gradient(to right, var(--main-grad)), radial-gradient(var(--core), rgba(var(--green-p), 0.3), 92%, rgba(var(--green-dark-3-p), 0.3), 97%, rgba(var(--dark-p), .95));
 
     --border-radius: .5rem;
     --border-color: var(--neutral-dark-2);
@@ -121,7 +148,6 @@
     --component-margin-y: .7rem;
     --component-margin-x: 1rem;
 
-    /* --flex-item-margins: 5rem; */
     --header-footer-height: 8vh;
     --main-rows-spacing: 1.5vh;
     --footer-padding: 0 var(--page-margin-x);
@@ -129,18 +155,43 @@
 
 
     /* >> Hand sections (dealer/player) */
-    --hand-bg: rgba(var(--core-dark-1-p),0.8);
+    --hand-bg: rgba(var(--core-dark-1-p), 0.8);
     --hand-height: 200px;
     --hand-max-height: 30vh;
     --hand-width: 90%;
     --hand-margin-y: 0;
     --hand-margin-x: var(--page-margin-x);
     --hand-padding-y: var(--card-margin-y);
+    --hand-border-color: rgba(var(--green-dark-1-p), .9);
+    --hand-border-color: rgba(var(--yellow-p), .4);
+    --hand-border-width: 2.5px;
+    --hand-box-shadow: 
+        inset 0px 0px 4px 1px rgba(var(--green-p), .7), 
+        inset 0px 0px 6px 5px rgba(var(--green-dark-1-p), 1), 
+        inset 0px 2px 9px 4px rgba(var(--green-dark-3-p), 0.3), 
+        0px 0px 0px 8px rgba(var(--yellow-p), .75); 
     
     --card-group-min-width: 75%;
 
 
     /* > Components */
+
+    /* >> modal */
+    --modal-background: rgba(var(--neutral-dark-3-p), .90);
+
+    --modal-width: 65vw;
+    --modal-height: 60vh;
+    --modal-spacing: calc(1rem + 1vw);
+    --modal-body-padding: calc(var(--modal-spacing) * 1.5);
+    --modal-border-radius: 1.1rem;
+
+    --modal-title-fs: calc(var(--fs-xxl) + 4px);
+    --modal-title-fw: normal;
+    --modal-content-fs: var(--fs-m);
+
+    --modal-btn-size-adjust: 1.25;
+    --modal-footer-btn-w: calc(var(--btn-min-width) * var(--modal-btn-size-adjust));
+
 
     /* >> buttons */
 
@@ -149,7 +200,15 @@
     --btn-bg-lighter-p: var(--core-comp-light-1-p);
     --btn-bg-darker: var(--core-comp-dark-1);
     --btn-bg-darker-p: var(--core-comp-dark-1-p);
-    --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75));
+    --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.40), 6%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75));
+
+    --btn-core-bg-lighter: var(--core-light-1);
+    --btn-core-bg-lighter-p: var(--core-light-1-p);
+    --btn-core-bg-darker: var(--core-dark-2);
+    --btn-core-bg-darker-p: var(--core-dark-2-p);
+    --btn-core-ft-bg: var(--core);
+    --btn-core-ft-bg-grad: linear-gradient(to top, rgba(var(--btn-core-bg-darker-p),0.40) 6%, 30%, rgba(var(--btn-core-bg-lighter-p),0.55), 92%, rgba(var(--btn-core-bg-darker-p),0.75));
+    --btn-core-hover-bg: var(--btn-core-bg-lighter);
 
     --btn-padding-y: .75rem;
     --btn-padding-x: .75rem;
@@ -163,8 +222,14 @@
     --btn-min-height: 40px;
     --btn-border-width: 0;
     --btn-border-color: var(--border-color);
-    --btn-border-radius: var(--border-radius);
-    --btn-box-shadow: inset 0 .5px 0 .5px rgba(var(--white), .15), inset 0px -.5px 0 .5px rgba(var(--white), .15), 0 1px 2px 0px rgba(var(--black), .175);
+    /* --btn-border-radius: var(--border-radius); */
+    --btn-border-radius: .4rem;
+
+    --btn-box-shadow: 
+        inset 0 -1px 4px 1px rgba(var(--black), .30), 
+        /* inset 0 .5px 0 .5px rgba(var(--white), .15),  */
+        /* inset 0px -.5px 0 .5px rgba(var(--white), .15),  */
+        0 2px 4px 2px rgba(var(--black), .3);
 
     --btn-hover-bg: rgba(var(--btn-bg-lighter-p));
     --btn-hover-text-color: var(--btn-text-color);
@@ -172,6 +237,8 @@
     --btn-hover-bd-color: var(--btn-border-color);
     --btn-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
+
+    
     /* --btn-close-bg: ;
     --btn-close-bg-gradient: ;
     --btn-bg-gradient: linear-gradient(to bottom, rgba(var(--btn-bg-darker-p),0.75), 8%, transparent, 92%, rgba(var(--btn-bg-darker-p),0.75)); */
@@ -181,9 +248,9 @@
     --card-aspect-ratio: 112 / 157;
     --card-height: 28vh;
 
-    --card-bg: transparent;
+    --card-bg: rgba(var(--core-p), .8);
     --card-text-color: var(--text-color);
-    --card-border-color: rgba(var(--border-color-p), 0.8);
+    --card-border-color: rgba(var(--border-color-p), 0.4);
     --card-border-width: 0;
     --card-border-radius: .65rem;
     --card-inner-shadow: inset 0 1px 3px 2px rgba(var(--dark-p), .15);
@@ -193,35 +260,15 @@
     --card-margin-x: var(--component-margin-x);
 
     --card-empty-box-shadow: inset 0 1px 0 rgba(var(--dark-p), .15);
-    --card-empty-bg: rgba(var(--dark-p), .4);
+    --card-empty-bg: var(--card-bg);
     --card-empty-bd-width: var(--border-width);
-    --card-empty-bd-color:rgba(var(--border-color-p), 0.8);
+    --card-empty-bd-color: var(--card-border-color);
 
     --card-hover-box-shadow: var(--box-shadow);
     /* --card-transition: color .15s ease-in-out, background-color .05s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; */
     /* --card-hover-box-shadow: inset 0 1px 0 rgba(var(--white), .15), var(--card-box-shadow); */
-
 }
 
-/* 
-$btn-color:                   var(--#{$prefix}body-color) !default;
-$btn-padding-y:               $input-btn-padding-y !default;
-$btn-padding-x:               $input-btn-padding-x !default;
-$btn-font-family:             $input-btn-font-family !default;
-$btn-font-size:               $input-btn-font-size !default;
-$btn-line-height:             $input-btn-line-height !default;
-$btn-white-space:             null !default; // Set to `nowrap` to prevent text wrapping
-
-$btn-padding-y-sm:            $input-btn-padding-y-sm !default;
-$btn-padding-x-sm:            $input-btn-padding-x-sm !default;
-$btn-font-size-sm:            $input-btn-font-size-sm !default;
-
-$btn-padding-y-lg:            $input-btn-padding-y-lg !default;
-$btn-padding-x-lg:            $input-btn-padding-x-lg !default;
-$btn-font-size-lg:            $input-btn-font-size-lg !default;
-
-
-*/
 
 /* GENERAL */
 
@@ -232,7 +279,6 @@ html {
 }
 
 body {
-
     width: 100% !important;
     min-height: 100%;
     padding: 0;
@@ -242,8 +288,8 @@ body {
     font-family: var(--font-family);
     
     background-color: var(--background-color);
+    background-image: var(--background-grad);
     overflow-x: hidden;
-
 }
 
 
@@ -289,25 +335,6 @@ body > div {
 
 
 .main-container {
-    /* --row-max: calc(calc(100vh - 70px) / 2); */
-    /* --header-footer-height: 8; */
-
-    /* --main-spacer-height: 2vh; */
-    /* --main-min-height: calc(100 - (var(--hd-ft-height) * 2)); */
-
-    /* --grid-row-1-3-height: 'calc based on min-height minus spacer';
-    --main-rows-main-ht-calc: calc((var(--main-min-height) - var(--main-spacer-height)) / 2);
-    --main-rows-height: calc(var(--main-rows-main-ht-calc) * 1vh); */
-
-    /* min-height: calc(var(--main-min-height) * 1vh); */
-
-
-    /* grid-template-rows: minmax(150px, var(--row-max)) 1fr minmax(150px, var(--row-max)); */
-    /* grid-template-rows: 38vh auto 38vh; */
-    
-    /* grid-template-rows: var(--main-rows-height) var(--main-spacer-height) var(--main-rows-height); */
-    /* grid-template-rows: var(--main-rows-height) auto var(--main-rows-height); */
-
     --main-min-height: calc(100vh - (var(--header-footer-height) * 2));
     
     min-height: var(--main-min-height);
@@ -320,9 +347,6 @@ body > div {
     align-self: center;
     contain: strict;
 } 
-
-
-
 
 
 /* COMPONENTS */
@@ -341,7 +365,6 @@ div.modal-container {
     overflow-y: hidden;
     z-index: calc(var(--header-z-index) + 1);
     /* transition: all ease-in-out 15s; */
-
 }
 
 
@@ -373,22 +396,6 @@ div.modal-body > * {
 }
 
 div.modal-body {
-    /* transition: display .5s ease-in-out; */
-    --modal-background: rgba(var(--neutral-dark-3-p), .90);
-
-    --modal-width: 65vw;
-    --modal-height: 60vh;
-    --modal-spacing: calc(1rem + 1vw);
-    --modal-body-padding: calc(var(--modal-spacing) * 1.5);
-    --modal-border-radius: 1.1rem;
-
-    --modal-title-fs: calc(var(--fs-xxl) + 4px);
-    --modal-title-fw: normal;
-    --modal-content-fs: var(--fs-m);
-
-    --modal-btn-size-adjust: 1.25;
-    --modal-footer-btn-w: calc(var(--btn-min-width) * var(--modal-btn-size-adjust));
-
     background: var(--modal-background);
     
     width: var(--modal-width);
@@ -433,7 +440,6 @@ div.modal-body .modal-header {
 }
 
 div.modal-title {
-    
     color: var(--text-color);
     margin: var(--modal-spacing);
 
@@ -447,7 +453,6 @@ div.modal-title * {
    margin: 0;
    font-size: var(--modal-title-fs) !important;
    font-weight: var(--modal-title-fw);
-
 }
 
 div.modal-body .dismiss-btn { 
@@ -475,7 +480,6 @@ div.modal-footer {
 }
 
 .modal-footer button {
-
     width: var(--modal-footer-btn-w);
     height: calc(var(--modal-footer-btn-w) * 0.35);
     margin: var(--modal-spacing);
@@ -483,14 +487,11 @@ div.modal-footer {
     flex-shrink: 0;
     font-size: calc(var(--modal-content-fs) * var(--modal-btn-size-adjust)) !important;
     font-size: calc(var(--btn-font-size) * var(--modal-btn-size-adjust)) !important;
-
 }
-
 
 .mdl.hide, .modal.hide, .modal-body.hide, .modal-bg.hide, .modal-container.hide {
     display: none !important;
 }
-
 
 .modal-content.message {
     display: flex;
@@ -516,6 +517,79 @@ div.modal-footer {
 div.modal-body.message .lineEmph {
     font-size: calc(var(--modal-title-fs) * .75);
     padding-top: var(--modal-spacing);
+}
+
+
+
+/* > INFO boxes (header) */
+
+div.info-container {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    overflow: hidden;
+    z-index: calc(var(--header-z-index) - 1);
+}
+
+div.info-bg {
+    background: transparent;
+    
+    height: 100%;
+    width: 100%;
+
+    display: flex; 
+    position: fixed;
+    top: 0;
+    z-index: calc(var(--header-z-index));
+}
+
+div.info-body {
+    background: var(--modal-background);
+    
+    width: 30vw;
+    height: max-content;
+    padding: 1.1rem;
+    padding-top: calc(var(--header-footer-height) - 1.5rem);
+    border-radius: 0 0 .7rem 0;
+    
+    position: fixed;
+    /* top: var(--header-footer-height); */
+    top: 0;
+    z-index: calc(var(--header-z-index));
+    word-wrap: normal;
+}
+
+div.info-content {
+    padding: 1rem;
+    margin-top: 1rem;
+    background: rgba(var(--neutral-dark-3-p), 0.9);
+    border-radius: var(--border-radius);
+}
+
+div.info-content ul { 
+    padding-inline-start: 1rem;
+}
+
+div.info-content li { 
+    padding-bottom: .7rem;
+    padding-left: .4rem;
+}
+
+div.info-content li::marker { 
+    color: var(--grey);
+}
+
+.info-content p {
+    color: var(--grey-light-2);
+    text-align: center;
+    margin: .5rem 0;
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-m);
+    font-weight: 500;
+}
+
+.info.hide { 
+    display: none;
 }
 
 
@@ -550,47 +624,6 @@ div.modal-body.message .lineEmph {
     /* transition: transform 1s; */
 
 
-    /* Card-body... */
-    /* // Enable `flex-grow: 1` for decks and groups so that card blocks take up
-    // as much space as possible, ensuring footers are aligned to the bottom. */
-    
-    /* flex: 1 1 auto;
-    padding: var(--#{$prefix}card-spacer-y) var(--#{$prefix}card-spacer-x);
-    color: var(--#{$prefix}card-color);
-    }
-    */
-
-/* Card image overlay */
-
-/* .card-img-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: var(--#{$prefix}card-img-overlay-padding);
-    @include border-radius(var(--#{$prefix}card-inner-border-radius));
-  }
-  
-  
-  .card-img,
-  .card-img-top,
-  .card-img-bottom {
-    width: 100%; // Required because we use flexbox and this inherently applies align-self: stretch
-  }
-  
-  .card-img,
-  .card-img-top {
-    @include border-top-radius(var(--#{$prefix}card-inner-border-radius));
-  }
-  
-  .card-img,
-  .card-img-bottom {
-    @include border-bottom-radius(var(--#{$prefix}card-inner-border-radius));
-  }
-   */
-
-
     &.empty {
         background: var(--card-empty-bg);
         box-shadow: var(--card-empty-box-shadow);
@@ -606,10 +639,6 @@ div.modal-body.message .lineEmph {
         /* display: none; */
         visibility: hidden;
     }
-
-    /* &.transform {
-        transform: translateX(65%);
-    } */
 }
 
 /* .card.empty {  
@@ -656,7 +685,6 @@ div.modal-body.message .lineEmph {
     border: var(--btn-border-width) solid var(--btn-border-color) !important;
     border-radius: var(--btn-border-radius) !important;
     box-shadow: var(--btn-box-shadow) !important;
-    /* @include gradient-bg(var(--#{$prefix}btn-bg)); */
 
     transition: var(--btn-transition); 
 }
@@ -670,14 +698,6 @@ div.modal-body.message .lineEmph {
 
 button.btn.core {
     /* Use core color(s) for modal buttons, instead of complementary */
-    --btn-core-bg-lighter: var(--core-light-1);
-    --btn-core-bg-lighter-p: var(--core-light-1-p);
-    --btn-core-bg-darker: var(--core-dark-2);
-    --btn-core-bg-darker-p: var(--core-dark-2-p);
-    --btn-core-ft-bg: var(--core);
-    --btn-core-ft-bg-grad: linear-gradient(to top, rgba(var(--btn-core-bg-darker-p),0.75) 8%, 20%, rgba(var(--btn-core-bg-lighter-p),0.55), 92%, rgba(var(--btn-core-bg-darker-p),0.75));
-    --btn-core-hover-bg: var(--btn-core-bg-lighter);
-
     background: var(--btn-core-ft-bg);
     background-image: var(--btn-core-ft-bg-grad);
     
@@ -707,7 +727,6 @@ button.btn.core {
 
 
 
-
 /* SECTIONS */
 
 /*  > Top - controls/info bar */
@@ -725,9 +744,10 @@ button.btn.core {
 #control-bar > .flex {
     margin: 0 !important;
     padding: 0;
+    padding-left: .5rem;
 }
 
-.info-box {
+.info-box, .info-buttons {
     margin: var(--component-margin-y) var(--component-margin-x) !important;
     cursor: pointer;
     z-index: calc(var(--header-z-index) + 5);
@@ -758,33 +778,27 @@ button.btn.core {
     order: 2;
 }
 
-/* .divider {
-    height: 100%;
-    margin: 0;
-} */
-
-#dealer h2 { order: 5; }
-
 .row h2 {
     color: var(--grey-light-2);
     font-style: italic;
     text-align: center;
-    margin: .5rem 0 !important;
+    margin: .25rem 0;
 }
 
+#dealer h2 { order: 5;  margin-top: .9rem}
+#player h2 { margin-bottom: .9rem}
+
 div.hand {
-    /* box-shadow: var(--box-shadow-sm); */
-    /* box-sizing: border-box; */
+    box-shadow: var(--hand-box-shadow);
     background-color: var(--hand-bg);
 
     min-height: var(--hand-height);
-    /* max-height: var(--hand-max-height); */
     height: 100%;
 
     margin: var(--hand-margin-y) var(--hand-margin-x);
     padding: var(--hand-padding-y) 0;
     
-    border: var(--border-width) solid var(--border-color);
+    border: var(--hand-border-width) solid var(--hand-border-color);
     border-radius: var(--border-radius);
 
     justify-content: center;
@@ -808,14 +822,11 @@ div.hand-group {
     /* margin: var(--hand-margin-y) var(--hand-margin-x); */
     /* width: var(--card-group-max-width); */
 
-    /* min-width: 70%; */
-    min-width: calc(100% - 5vw);
     min-width: var(--card-group-min-width);
     width: max-content;
     justify-content: center;
     align-items: center;
 
-    /* contain: content; */
     overflow: visible !important;
 
 }
@@ -857,10 +868,6 @@ div.hand-group {
         --page-margin-x: 15vw;
         --modal-width: 70vw;
     }
-
-    div.modal-body {
-        --modal-width: 70vw;    
-    } 
 }
 
 
@@ -869,10 +876,6 @@ div.hand-group {
         --page-margin-x: 13vw;
         --modal-width: 80vw;
     }
-
-    div.modal-body {
-        --modal-width: 80vw;    
-    } 
 }
 
 
@@ -892,18 +895,15 @@ div.hand-group {
     .hand-group {
         align-items: flex-start !important;
     }
-
-    /* #dealer > .hand > .hand-group {
-        align-items: flex-end;
-    }
-
-    #player > .hand > .hand-group {
-        align-items: flex-start;
-    } */
     
     .card {
         transition: transform .25s;
     }
+
+    div.info-body {
+        width: 50vw;
+    }
+
 }
 
 
@@ -920,6 +920,10 @@ div.hand-group {
     div.hand-group {
         margin-left: 4vw;
     }
+
+    div.info-body {
+        width: 100vw;
+    }
 }
 
 @media (max-width: 370px) {
@@ -927,6 +931,5 @@ div.hand-group {
         /* --page-margin-x: 5vw; */
         --card-margin-y: .3rem;
         --card-group-min-width: 430px;
-
     }
 }
